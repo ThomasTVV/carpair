@@ -94,3 +94,14 @@ app.get('/results/getStatus', function (req, res) {
         res.send(result[0].status);
     });
 });
+
+
+
+app.get('/results/getCars', function (req, res) {
+    //TODO: Her skal den hente de forskellige parametre ned. Og så bruge den i sql querien. fx: var tray = req.query.tray;
+    var query = `SELECT * FROM scrapedCars INNER JOIN carData ON scrapedCars.numberplate = carData.numberplate;`;
+
+    handleSql(query, "return lots", function (result) {
+        res.send(result);
+    });
+});
