@@ -25,7 +25,7 @@ function loadCars() {
             console.log(result);
 
             for (var i = 0; i < 2; i++) {
-                resultp.innerHTML += `<br>Pris: ${result[i]["price"]}, Nummerplade: ${result[i]["numberplate"]} osv... (se console for flere mulige elementer)`;
+                resultp.innerHTML += `<div style="background-color: blue; margin-top: 10px;">Pris: ${result[i]["price"]}, Nummerplade: ${result[i]["numberplate"]} osv... (se console for flere mulige elementer)</div>`;
             }
         }
     };
