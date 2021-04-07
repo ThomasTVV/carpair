@@ -1,4 +1,3 @@
-
 const express = require('express');
 const app = express();
 const router = express.Router();
@@ -7,8 +6,6 @@ const path = __dirname + '/views/';
 const port = 8080;
 
 var mysql = require('mysql');
-var session = require('express-session');
-var bodyParser = require('body-parser');
 
 // Template engine
 app.engine('html', require('ejs').renderFile);
@@ -17,21 +14,19 @@ app.set('view engine', 'html');
 // Specify static root directory
 app.use(express.static(path));
 
-// Mount router as middleware
-app.use('/', router);
+// Mount router as middleware: 
+app.use('/', router); 
 
 // Print message in console at bootup
 app.listen(port, function () {
     console.log(`I\'m listening for you on port ${port}!`)
 });
 
-
 // Print request method in the console
 router.use(function (req,res,next) {
     console.log('/' + req.method);
     next();
 });
-
 
 // results route
 app.get('/results/', function (req, res) {
@@ -40,10 +35,11 @@ app.get('/results/', function (req, res) {
 
 // Index route
 app.get('/', function (req, res) {
-    //res.render(path + 'index/index.html', { hej: count[0].count.toString() }); //sådan sendes variabler videre.
+    //res.render(path + 'index/index.html', { hej: count[0].count.toString() }); //sï¿½dan sendes variabler videre.
     res.render(path + 'index/index.html');
   });
 
+// Handling sql 
 function handleSql(query, responseAction = "", callback) {
 
     var con = mysql.createConnection({
@@ -70,8 +66,7 @@ function handleSql(query, responseAction = "", callback) {
     con.end();
 };
 
-
-    //eksempel på at indsætte
+    //eksempel pï¿½ at indsï¿½tte
 app.get('/results/newTest', function (req, res) { 
     var par1 = req.query.parameter1;
     var par2 = req.query.parameter2;
@@ -84,8 +79,7 @@ app.get('/results/newTest', function (req, res) {
     res.send("WHEEE (response text)");
 });
 
-
-    //eksempel på get
+    //eksempel pï¿½ get
 app.get('/results/getStatus', function (req, res) {
     var tray = req.query.tray;
     var query = `SELECT status FROM lots WHERE tray = ${tray} ORDER BY lot DESC LIMIT 1;`; 
@@ -95,10 +89,8 @@ app.get('/results/getStatus', function (req, res) {
     });
 });
 
-
-
 app.get('/results/getCars', function (req, res) {
-    //TODO: Her skal den hente de forskellige parametre ned. Og så bruge den i sql querien. fx: var tray = req.query.tray;
+    //TODO: Her skal den hente de forskellige parametre ned. Og sï¿½ bruge den i sql querien. fx: var tray = req.query.tray;
     var query = `SELECT * FROM scrapedCars INNER JOIN carData ON scrapedCars.numberplate = carData.numberplate;`;
 
     handleSql(query, "return lots", function (result) {
