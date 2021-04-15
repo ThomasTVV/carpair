@@ -1,8 +1,7 @@
 # carpair
-Compare car
 
 
-Install anpr dependencies by opening your commando prompt and navigating in to the anpr folder and enter the commands shown in the readme.md
+Install anpr dependencies by opening your commando prompt and navigating in to the anpr folder and enter the commands shown in the readme.md aswell as installing the necessary files and executables.
 
 ## YoloV4 setup.
 
