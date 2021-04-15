@@ -1,7 +1,7 @@
 # carpair
 
 
-Install anpr dependencies by opening your commando prompt and navigating in to the anpr folder and enter the commands shown in the readme.md aswell as installing the necessary files and executables.
+Install ANPR dependencies by opening your commando prompt and navigating in to the anpr folder and enter the commands shown aswell as installing the necessary files and executables.
 
 ## YoloV4 setup.
 
@@ -45,11 +45,9 @@ The function that is in charge of doing the preprocessing and text extraction is
 
 To run tesseract OCR you must first download the binary files and set them up on your local machine.
 
-Windows 
+Windows: [https://github.com/UB-Mannheim/tesseract/wiki](https://github.com/UB-Mannheim/tesseract/wiki)
 
-[https://github.com/UB-Mannheim/tesseract/wiki](https://github.com/UB-Mannheim/tesseract/wiki)
-
-Mac or Linux Machines: [https://www.pyimagesearch.com/2017/07/03/installing-tesseract-for-ocr/](https://www.pyimagesearch.com/2017/07/03/installing-tesseract-for-ocr/)
+Mac or Linux: [https://www.pyimagesearch.com/2017/07/03/installing-tesseract-for-ocr/](https://www.pyimagesearch.com/2017/07/03/installing-tesseract-for-ocr/)
 
 
 ## Running the license place recognition
