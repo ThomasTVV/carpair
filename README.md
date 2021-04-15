@@ -2,6 +2,8 @@
 Compare car
 
 
+Install anpr dependencies by opening your commando prompt and navigating in to the anpr folder and enter the commands shown in the readme.md
+
 ## YoloV4 setup.
 
 **Install dependencies set as requirements**
@@ -18,12 +20,7 @@ pip install -r requirements-gpu.txt
 
 [https://drive.google.com/file/d/1EUPtbtdF0bjRtNjGv436vDY28EN5DXDH/view](https://drive.google.com/file/d/1EUPtbtdF0bjRtNjGv436vDY28EN5DXDH/view)
 
-Copy and paste your custom .weights file into the 'data' folder and copy and paste your custom .names into the 'data/classes/' folder.
-
-on line 14 of 'core/config.py' file. Update the code to point at your custom .names file as seen below.
-
-
-![editcode](https://raw.githubusercontent.com/theAIGuysCode/yolov4-custom-functions/master/data/helpers/custom_config.png)
+Copy and paste your custom .weights file into the 'data' folder.
 
 
 ## Creating and running the model
@@ -61,12 +58,15 @@ For Windows
 
 ```c
 # Run License Plate Recognition on single image
-python detect.py --weights ./checkpoints/custom-416 --size 416 --model yolov4 --images ./data/images/car2.jpg --plate
+python detect.py --weights ./checkpoints/custom-416 --size 416 --model yolov4 --images ./data/images/car8.jpg --plate
 
 # Run License Plate Recognition on multiple images
-python detect.py --weights ./checkpoints/custom-416 --size 416 --model yolov4 --images "./data/images/car5.jpg, ./data/images/car6.jpg"
+python detect.py --weights ./checkpoints/custom-416 --size 416 --model yolov4 --images "./data/images/car5.jpg, ./data/images/car6.jpg, ./data/images/car7.jpg, ./data/images/car8.jpg, ./data/images/car9.jpg, ./data/images/car10.jpg, ./data/images/car11.jpg, ./data/images/car12.jpg, ./data/images/car13.jpg, ./data/images/car14.jpg, ./data/images/car15.jpg, ./data/images/car16.jpg, ./data/images/car17.jpg, ./data/images/car18.jpg, ./data/images/car19.jpg" --plate"
 ```
 
+
 The output from the above command should print any license plate numbers found to your command terminal as well as output and save the following image to the detections folder.
+
+If you don't get a licence plate as output either try a different picture or restart your commando prompt, to let earlier changes set in.
 
 You should be able to see the license plate number printed on the screen above the bounding box found by YOLOv4.
