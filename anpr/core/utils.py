@@ -1,11 +1,13 @@
-import cv2
+from cv2 import cv2
 import random
 import colorsys
 import numpy as np
 import tensorflow as tf
 import pytesseract
+pytesseract.pytesseract.tesseract_cmd = r'C:/Program Files/Tesseract-OCR/tesseract.exe'
 from core.config import cfg
 import re
+
 
 # If you don't have tesseract executable in your PATH, include the following:
 # pytesseract.pytesseract.tesseract_cmd = r'<full_path_to_your_tesseract_executable>'
@@ -81,8 +83,8 @@ def recognize_plate(img, coords):
             text = None
     if plate_num != None:
         print("License Plate #: ", plate_num)
-    #cv2.imshow("Character's Segmented", im2)
-    #cv2.waitKey(0)
+    cv2.imshow("Character's Segmented", im2)
+    cv2.waitKey(0)
     return plate_num
 
 def load_freeze_layer(model='yolov4', tiny=False):
