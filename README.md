@@ -24,7 +24,7 @@ Copy and paste your custom .weights file into the 'data' folder.
 
 ## Creating and running the model
 
-convert the custom yolov4-weights into the corresponding TensorFlow model files and then run the model.
+Convert the custom yolov4-weights into the corresponding TensorFlow model files and then run the model.
 
 ```c
 python save_model.py --weights ./data/custom.weights --output ./checkpoints/custom-416 --input_size 416 --model yolov4 
@@ -43,15 +43,14 @@ The function that is in charge of doing the preprocessing and text extraction is
 
 ## Setting up Tesseract OCR
 
-In order to run tesseract OCR you must first download the binary files and set them up on your local machine. Please do so before proceeding or commands will not run as expected!
+To run tesseract OCR you must first download the binary files and set them up on your local machine.
 
-Official Tesseract OCR Github Repo: [tesseract-ocr/tessdoc](https://github.com/tesseract-ocr/tessdoc)
-
-Article for How To Install Tesseract on Mac or Linux Machines: [https://www.pyimagesearch.com/2017/07/03/installing-tesseract-for-ocr/](https://www.pyimagesearch.com/2017/07/03/installing-tesseract-for-ocr/)
-
-For Windows 
+Windows 
 
 [https://github.com/UB-Mannheim/tesseract/wiki](https://github.com/UB-Mannheim/tesseract/wiki)
+
+Mac or Linux Machines: [https://www.pyimagesearch.com/2017/07/03/installing-tesseract-for-ocr/](https://www.pyimagesearch.com/2017/07/03/installing-tesseract-for-ocr/)
+
 
 ## Running the license place recognition
 
