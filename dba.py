@@ -140,7 +140,13 @@ class ImportBot():
     def importData(self, price, link, zip, area, dateStr, imageLinks):
         mycursor = self.mydb.cursor()
 
-        thumbnail = imageLinks[0]
+        thumbnail = ""
+
+        try:
+            thumbnail = imageLinks[0]
+        except:
+            thumbnail = " "
+
         imagesStr = ""
 
         for img in imageLinks:
