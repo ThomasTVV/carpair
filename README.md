@@ -1,9 +1,15 @@
 # CarPair
 CarPair seeks to establish trust and streamline the car sales process, by establishing a decentralized platform that makes use of a webscraper that scours the web for car listings. The gathered data is then further complimented by using Automatic Numberplate Recognition(ANPR) software to extract number plates from car listings, which further enriches the gathered data, by using external API's. This results in a decentralized platform with car listings that have universally enriched data, whose parameters can then be further searched and filtered through.
 
-_Install ANPR dependencies by opening your commando prompt and navigating in to the anpr folder and enter the commands shown aswell as installing the necessary files and executables._
+## Javascript dependencies
+Navigate to the carpair folder in cmd
+Run ```npm install``` to install dependencies.
+To start the application, run ```node app.js``` in the root directory.
+
 
 ## YoloV4 setup.
+
+_Install ANPR dependencies by opening your commando prompt and navigating in to the anpr folder and enter the commands shown aswell as installing the necessary files and executables._
 
 **Install dependencies set as requirements**
 
