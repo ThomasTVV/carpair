@@ -1,5 +1,39 @@
 
-/* Skeleton */
+
+body {
+    background-color: #f3f2f1;
+}
+
+.logo {
+    padding-top: 1.5rem;
+}
+
+.lead {
+    font-size: 16px;
+    padding-top: 0.5rem;
+    font-style: italic;
+}
+
+.filter-wrapper{
+    background-color: white;
+    border-radius: .25rem;
+}
+
+.recommendation-container{
+    padding-top:3rem;
+}
+.recommended-header {
+    display: block;
+}
+
+.footer{
+    padding-top: 3rem;
+}
+
+
+
+
+/* Skeleton 
 .wrapper {
     display: grid;
     grid-template-columns: 1fr 5fr 1fr;
@@ -13,7 +47,7 @@
             background: #eee;
         }
 
-/* alt inde for search feltet */
+/* alt inde for search feltet 
 .search_field {
 }
 
@@ -41,8 +75,8 @@
     background-color: #818AEE;
     font-size: 20px;
 }
-
-/* Dette er for inder boxes */
+*/
+/* Dette er for inder boxes 
 .wrapper2 {
     display: grid;
     grid-template-columns: 0.2fr 0.5fr 0.2fr 0.5fr 0.2fr 0.5fr;
@@ -84,11 +118,11 @@
     bottom: 0;
 }
 
+*/
 
 
 
-
-/* box with the cars inside */
+/* box with the cars inside 
 .cars {
     background: white;
     margin-top: 50px;
@@ -145,3 +179,4 @@
 
 .wrapper3 ol {
 }
+*/

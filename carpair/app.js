@@ -36,6 +36,7 @@ app.get('/results/', function (req, res) {
 // Index route
 app.get('/', function (req, res) {
     //res.render(path + 'index/index.html', { hej: count[0].count.toString() }); //s�dan sendes variabler videre.
+    
     res.render(path + 'index/index.html');
   });
 
