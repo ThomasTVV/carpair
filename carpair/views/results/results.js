@@ -26,7 +26,6 @@ function loadCars() {
 
 			for (var i = 0; i < result.length; i++) {
 				var row = createDomRow(result, i);
-                //resultp.innerHTML += `<div style="background-color: blue; margin-top: 10px;">Pris: ${result[i]["price"]}, Nummerplade: ${result[i]["numberplate"]} osv... (se console for flere mulige elementer)</div>`;
 				resultp.innerHTML += row;
 			}
         }
@@ -37,14 +36,14 @@ function loadCars() {
 
 loadCars();
 
-
 function createDomRow(json, i) {
-	var row = `<div class="row h150">
+	var bgColor = (i % 2) ? "#ffffff" : "#dedede";
+	var row = `<div style="padding: 10px 0px; background-color: ${bgColor}"><div class="row h150">
 		<div class="col-sm-3">
 			<div class="carImg" style="background-image: url('${json[i]["thumbnail"]}'); ">
 			</div>
 		</div>
-		<div class="col-sm-9">
+		<div class="col-sm-9 width72">
 			<div class="row title">
 				<div class="col-sm-8">
 					${json[i]["title"]}
@@ -80,7 +79,7 @@ function createDomRow(json, i) {
 				${json[i]["fuel"]}
 			</div>
 			<div class="col-sm-4">
-				${json[i]["checkupdate"]} checkupdate
+				${checkUpTime(json[i]["checkupdate"])} months for checkup
 			</div>
 			<div class="col-sm-4">
 				<a target="_blank" href="${json[i]["link"]}">View on DBA.DK</a>
@@ -88,7 +87,27 @@ function createDomRow(json, i) {
 		</div>
 		</div>
 		
-	</div>`;
+	</div></div>`;
 
 	return row;
+}
+
+function monthDiff(d1, d2) {
+	var months;
+	months = (d2.getFullYear() - d1.getFullYear()) * 12;
+	months -= d1.getMonth();
+	months += d2.getMonth();
+	console.log(months);
+	return months <= 0 ? 0 : months;
+}
+
+function checkUpTime(str) {
+	var split = str.split("-");
+	var newStr = split[2] + "-" + split[1] + "-" + split[0];
+	console.log("newStr er: " + newStr);
+	var date = new Date(newStr);
+	var today = new Date();
+	console.log(date);
+	console.log(today);
+	return monthDiff(today, date);
 }

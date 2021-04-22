@@ -15,3 +15,7 @@
     height: 150px;
     margin: 20px 0px;
 }
+
+.width72 {
+    max-width: 72% !important;
+}
