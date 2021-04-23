@@ -20,17 +20,18 @@
         <!-- Top header section-->
         <img src="../carpair-logo.png" width="150px" height="auto" class="logo">
         <p class="lead">CarPair seeks to establish trust and streamline the car sales process .</p>
-        <form>
+       <!--Form start-->
+        <form method="POST" action="/results/getFiltered">
             <!-- Container of filter elements-->
             <div class="filter-wrapper" style="padding:0.5rem;">
-                <form>
                     <!-- One row of filtering options-->
                     <div class="row mb-3">
                         <div class="col-lg-3">
                             <label for="brand">Brand</label>
                         </div>
+                        <!--One column-->
                         <div class="col-lg-3">
-                            <select class="form-control" id="brand" aria-label="Default select example">
+                            <select class="form-control" id="brand" name="brand" aria-label="Default select example">
                                 <option selected>Any</option>
                                 <option value="Audi">Audi</option>
                                 <option value="Wolkswagen">Wolkswagen</option>
@@ -41,18 +42,19 @@
                             <label for="price">Price</label>
                         </div>
                         <div class="col-lg-3">
-                            <input class="form-control" id="price" type="text" placeholder="MIN."
+                            <input class="form-control" id="priceMIN" name="priceMIN" type="text" placeholder="MIN."
                                 style="display:inline-block; width:45%;"> -
-                            <input class="form-control" id="price" type="text" placeholder="MAX"
+                            <input class="form-control" id="priceMAX" name ="priceMIN" type="text" placeholder="MAX"
                                 style="display:inline-block; width:45%;">
                         </div>
                     </div>
+
                     <div class="row mb-3">
                         <div class="col-lg-3">
                             <label for="fuel">Fuel</label>
                         </div>
                         <div class="col-lg-3">
-                            <select class="form-control" id="fuel" aria-label="Default select example">
+                            <select class="form-control" id="fuel" name="fuel" aria-label="Default select example">
                                 <option selected> Any</option>
                                 <option value="Gasoline">Gasoline</option>
                                 <option value="Diesel">Diesel</option>
@@ -63,37 +65,39 @@
                             <label for="totalKM">Total KM</label>
                         </div>
                         <div class="col-lg-3">
-                            <input class="form-control" id="totalKM" type="text"
+                            <input class="form-control" id="totalKM" name="totalKM" type="text"
                                 placeholder="max kilometers driven eg 132000">
                         </div>
                     </div>
+
                     <div class="row mb-3">
                         <div class="col-lg-3">
                             <label for="KML">KM/L</label>
                         </div>
                         <div class="col-lg-3">
-                            <input class="form-control" id="KML" type="text" placeholder="Default input">
+                            <input class="form-control" id="KML" name="KML" type="text" placeholder="Default input">
                         </div>
                         <div class="col-lg-3">
                             <label for="nextService">Next Service</label>
                         </div>
                         <div class="col-lg-3">
-                            <input class="form-control" id="nextService" type="text"
+                            <input class="form-control" id="nextService" name="nextService" type="text"
                                 placeholder="Max months to service eg. 12">
                         </div>
                     </div>
+
                     <div class="row mb-3">
                         <div class="col-lg-3">
                             <label for="tax">Tax</label>
                         </div>
                         <div class="col-lg-3">
-                            <input class="form-control" id="tax" type="text" placeholder="Default input">
+                            <input class="form-control" id="tax" name="tax" type="text" placeholder="Default input">
                         </div>
                         <div class="col-lg-3">
                             <label for="area">Area</label>
                         </div>
                         <div class="col-lg-3">
-                            <select class="form-control" id="area" aria-label="Default select example">
+                            <select class="form-control" id="area" name="area" aria-label="Default select example">
                                 <option selected>Any</option>
                                 <option value="Nordjylland">Nordjylland</option>
                                 <option value="Midtjylland">Midtjylland</option>
@@ -104,8 +108,9 @@
                             </select>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary float-right btn-md"
-                        onclick="storeData();">Search</button>
+
+                    <button type="submit" class="btn btn-primary float-right btn-md">Search</button>
+
                 </form>
             </div>
 
@@ -163,8 +168,8 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
+
                 <div class=" footer">
                     <div class="row mb-3" style="background-color:#777777;">
                         <div class="col-lg-3">This is a footer</div>
