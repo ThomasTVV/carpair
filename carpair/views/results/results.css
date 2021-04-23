@@ -1,8 +1,7 @@
 .title {
-    font-size: 22px;
-    border-bottom: 1px solid black;
-    padding: 10px 0px;
-    margin-bottom: 22px;
+    font-size: 22px !important;
+    border-bottom: 1px solid #ededed;
+    margin-bottom: 5px;
     font-weight: bold;
 }
 
@@ -12,10 +11,20 @@
 }
 
 .h150 {
-    height: 150px;
-    margin: 20px 0px;
+    height: 120px;
+    margin: 0px 0px;
 }
 
 .width72 {
     max-width: 72% !important;
+}
+
+.details {
+    font-size: 13px;
+}
+
+.h150container {
+    padding: 20px 0px;
+    background-color: #ffffff;
+    border-bottom: 1px solid black;
 }

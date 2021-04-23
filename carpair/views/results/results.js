@@ -37,8 +37,8 @@ function loadCars() {
 loadCars();
 
 function createDomRow(json, i) {
-	var bgColor = (i % 2) ? "#ffffff" : "#dedede";
-	var row = `<div style="padding: 10px 0px; background-color: ${bgColor}"><div class="row h150">
+	var bgColor = (i % 2) ? "#ffffff" : "#ffffff";
+	var row = `<div class="h150container" style="background-color: ${bgColor}"><div class="row h150">
 		<div class="col-sm-3">
 			<div class="carImg" style="background-image: url('${json[i]["thumbnail"]}'); ">
 			</div>
@@ -52,7 +52,7 @@ function createDomRow(json, i) {
 					${json[i]["price"]}
 				</div>
 			</div>
-		<div class="row">
+		<div class="row details">
 			<div class="col-sm-4">
 				${json[i]["kilometer"]}.000 km
 			</div>
@@ -63,7 +63,7 @@ function createDomRow(json, i) {
 				${json[i]["listingdate"]}
 			</div>
 		</div>
-		<div class="row">
+		<div class="row details">
 			<div class="col-sm-4">
 				${json[i]["kml"]} km/l
 			</div>
@@ -74,7 +74,7 @@ function createDomRow(json, i) {
 				${json[i]["zipcode"]}
 			</div>
 		</div>
-		<div class="row">
+		<div class="row details">
 			<div class="col-sm-4">
 				${json[i]["fuel"]}
 			</div>
