@@ -105,14 +105,10 @@ app.get('/results/getCars', function (req, res) {
 });
 
 
-
-
-
 // Display car listings dependendt on user input from form
 app.post('/results/getFiltered', function (req, res) {
-
     //Data from form input
-    var carDataPost = {
+    var carFormInput = {
         tax: req.body.tax,
         brand: req.body.brand,
         fuel: req.body.fuel,
@@ -122,36 +118,40 @@ app.post('/results/getFiltered', function (req, res) {
         totalKM: req.body.totalKM,
         nextService: req.body.nextService,
         area: req.body.area
-    }
+    };
 
-    // Default query
-    query = 'SELECT * FROM scrapedCars INNER JOIN carData ON scrapedCars.numberplate = carData.numberplate'
+    // new dictionary to clean up wrong inputs, such as empty strings an "any" selectable
+    var cleanFormData = [];
 
-    // Append to query dependent on which input-field were filled
-    for (let carAttribute in carDataPost) {
-        if (carDataPost[carAttribute] == 'ANY' || '' || null) {
-            carDataPost[carAttribute] = "1=1"
+    // Clean up non-entries and "any"
+    for (var key in carFormInput) {
+        value = carFormInput[key];
+        if (value === "") {
+            cleanFormData[key] = "1=1";
+        } else if (value == "any") {
+            cleanFormData[key] = "1=1";
+        } else {
+            cleanFormData[key] = value;
         }
-        query += " WHERE carData." + carAttribute + ' ="' + carDataPost[carAttribute] + '"'
     }
-    // Append closing semi-colon to query
-    query += ';'
 
-
-    // Checks:
-    // - AND IN RIGHT PLACE, NOT IN FIRST AND LAST QUERY (counter for first, what for last? <- delete last AND?)
-    // ONLY APPEND IF NOT EMPTY OR "ANY"
-    // MIN AND MAX SPECIAL QUERY
-
-
-
-    //Test query
-    var testquery = `SELECT * FROM scrapedCars INNER JOIN carData ON scrapedCars.numberplate = carData.numberplate WHERE carData.fuel="Benzin" AND carData.brand="VOLKSVAGEN";`;
-
+    // Insert cleaned dictionary into master query (could probably be dynamically generated)
+    // TO DO: need to add custom functionality such as "AT LEAST" functionality and range between min and max price++
+    // TO DO: database table names need to be correct
+    var query = 
+    'SELECT * FROM scrapedCars INNER JOIN carData ON scrapedCars.numberplate = carData.numberplate' + 
+    ' WHERE carData.tax="' + cleanFormData.tax.value +  '" ' +
+    ' AND WHERE carData.brand="' + cleanFormData.brand.value + '" ' +
+    ' AND WHERE carData.fuel="' + cleanFormData.fuel.value + '" ' +
+    ' AND WHERE carData.KML="' + cleanFormData.KML.value + '" ' +
+    ' AND WHERE carData.price="' + cleanFormData.priceMIN.value + '" ' + /// add priceMIN + MAX MAGIC HERE
+    ' AND WHERE carData.totalKM="' + cleanFormData.totalKM.value + '" ' +
+    ' AND WHERE carData.nextService="' + cleanFormData.nextService.value + '" ' +
+    ' AND WHERE carData.area="' + cleanFormData.area.value + '";';
+   
     // Execute query and render the results on the page
-    handleSql(testquery, "return lots", function (result) {
+    handleSql(query, "return lots", function (result) {
         var string = JSON.stringify(result);
         res.render(path + 'results/results.html', { results: string });
-
     });
 });
