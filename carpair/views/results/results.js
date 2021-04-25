@@ -36,6 +36,29 @@ function loadCars() {
 
 loadCars();
 
+function loadCarsCount() {
+	var xmlhttp = new XMLHttpRequest();
+	xmlhttp.onreadystatechange = function () {
+		if (this.readyState == 4 && this.status == 200) {
+			var result = JSON.parse(this.response)[0]["count(price)"];
+			createPageButtons(result);
+		}
+	};
+	xmlhttp.open("GET", `getCarsCount`, true);
+	xmlhttp.send();
+}
+loadCarsCount();
+
+function createPageButtons(carsCount) {
+	var div = document.getElementById("pages");
+	var buttons = Math.ceil(carsCount / 3); //OBS!!! 3 fordi vi i testen vil vise 3 biler per side.
+
+	for (var i = 0; i < buttons; i++) {
+		var button = `<button type='button'>Page ${i+1}</button> `;
+		div.innerHTML += button;
+	}
+}
+
 function createDomRow(json, i) {
 	var bgColor = (i % 2) ? "#ffffff" : "#ffffff";
 	var row = `<div class="h150container" style="background-color: ${bgColor}"><div class="row h150">
