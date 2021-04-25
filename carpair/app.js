@@ -8,6 +8,9 @@ const port = 8080;
 
 var mysql = require('mysql');
 
+const carsPerPage = 3;
+
+
 // Template engine
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
@@ -95,9 +98,23 @@ app.get('/results/getStatus', function (req, res) {
 
 app.get('/results/getCars', function (req, res) {
     //TODO: Her skal den hente de forskellige parametre ned. Og s� bruge den i sql querien. fx: var tray = req.query.tray;
-    // var query = `SELECT * FROM scrapedCars INNER JOIN carData ON scrapedCars.numberplate = carData.numberplate;`;
+    var page = req.query.page;
+    console.log(page);
+    var offsetStr = "";
+    if (!isNaN(page)) {
+        var offset = (page-1) * carsPerPage; //3 fordi vi kun viser 3 biler i starten!!
+        offsetStr = ` OFFSET ${offset}`;
+    }
+    var query = `SELECT * FROM scrapedCars INNER JOIN carData ON scrapedCars.numberplate = carData.numberplate LIMIT ${carsPerPage}${offsetStr};`;
 
-    var query = `SELECT * FROM scrapedCars INNER JOIN carData ON scrapedCars.numberplate = carData.numberplate;`;
+    handleSql(query, "return lots", function (result) {
+        res.send(result);
+    });
+});
+
+//næsten samme query som ovenfor.
+app.get('/results/getCarsCount', function (req, res) {
+    var query = `SELECT count(price) FROM scrapedCars INNER JOIN carData ON scrapedCars.numberplate = carData.numberplate;`;
 
     handleSql(query, "return lots", function (result) {
         res.send(result);

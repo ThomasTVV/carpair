@@ -16,13 +16,35 @@ function testApiRequest(par1, par2) {
     xmlhttp.send();
 }
 
+function getParam(param) {
+	var url_string = window.location.href;
+	var url = new URL(url_string);
+	return url.searchParams.get(param);
+}
+
+function changePage(newPage) {
+	var url_string = window.location.href;
+	var currentPage = getParam("page");
+	var newString = `page=${newPage}`;
+
+	if (currentPage != null) {
+		var currentString = `page=${currentPage}`;
+		url_string = url_string.replace(currentString, newString);
+	}
+	else {
+		//TODO: der kan nok komme en lille bug her når de andre parametre også skal vises i url.
+		url_string += "?" + newString;
+	}
+	window.location.href = url_string;
+}
 
 function loadCars() {
+	var page = getParam("page");
+
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             var result = JSON.parse(this.response);
-            console.log(result);
 
 			for (var i = 0; i < result.length; i++) {
 				var row = createDomRow(result, i);
@@ -30,7 +52,7 @@ function loadCars() {
 			}
         }
     };
-    xmlhttp.open("GET", `getCars`, true);
+    xmlhttp.open("GET", `getCars?page=${page}`, true);
     xmlhttp.send();
 }
 
@@ -52,9 +74,12 @@ loadCarsCount();
 function createPageButtons(carsCount) {
 	var div = document.getElementById("pages");
 	var buttons = Math.ceil(carsCount / 3); //OBS!!! 3 fordi vi i testen vil vise 3 biler per side.
+	var pagetmp = getParam("page");
+	var page = (pagetmp != null) ? pagetmp : 1;
 
 	for (var i = 0; i < buttons; i++) {
-		var button = `<button type='button'>Page ${i+1}</button> `;
+		var active = (page - 1 == i) ? "class='active' " : "";
+		var button = `<button ${active}onclick='changePage(${i+1})' type='button'>Page ${i+1}</button> `;
 		div.innerHTML += button;
 	}
 }
@@ -120,17 +145,13 @@ function monthDiff(d1, d2) {
 	months = (d2.getFullYear() - d1.getFullYear()) * 12;
 	months -= d1.getMonth();
 	months += d2.getMonth();
-	console.log(months);
 	return months <= 0 ? 0 : months;
 }
 
 function checkUpTime(str) {
 	var split = str.split("-");
 	var newStr = split[2] + "-" + split[1] + "-" + split[0];
-	console.log("newStr er: " + newStr);
 	var date = new Date(newStr);
 	var today = new Date();
-	console.log(date);
-	console.log(today);
 	return monthDiff(today, date);
 }
