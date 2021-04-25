@@ -102,10 +102,11 @@ app.get('/results/getCars', function (req, res) {
     console.log(page);
     var offsetStr = "";
     if (!isNaN(page)) {
-        var offset = (page-1) * carsPerPage; //3 fordi vi kun viser 3 biler i starten!!
+        var offset = (page - 1) * carsPerPage; //3 fordi vi kun viser 3 biler i starten!!
         offsetStr = ` OFFSET ${offset}`;
     }
     var query = `SELECT * FROM scrapedCars INNER JOIN carData ON scrapedCars.numberplate = carData.numberplate LIMIT ${carsPerPage}${offsetStr};`;
+    console.log(query);
 
     handleSql(query, "return lots", function (result) {
         res.send(result);
@@ -126,15 +127,16 @@ app.get('/results/getCarsCount', function (req, res) {
 app.post('/results/getFiltered', function (req, res) {
     //Data from form input
     var carFormInput = {
-        tax: req.body.tax,
+        weighttax: req.body.weighttax,
         brand: req.body.brand,
         fuel: req.body.fuel,
-        KML: req.body.KML,
-        priceMIN: req.body.priceMIN,
-        priceMAX: req.body.priceMAX,
-        totalKM: req.body.totalKM,
-        nextService: req.body.nextService,
+        kml: req.body.kml,
+        kilometer: req.body.kilometer,
         area: req.body.area
+        //  area: req.body.area <-- kan ikke finde column in db
+        //  nextService: req.body.nextService, <-- not in db
+        //  priceMIN: req.body.priceMIN, <-- need price in integer
+        //  priceMAX: req.body.priceMAX,  <-- need price in integer
     };
 
     // new dictionary to clean up wrong inputs, such as empty strings an "any" selectable
@@ -143,29 +145,28 @@ app.post('/results/getFiltered', function (req, res) {
     // Clean up non-entries and "any"
     for (var key in carFormInput) {
         value = carFormInput[key];
-        if (value === "") {
-            cleanFormData[key] = "1=1";
+        if (value === "" || value === undefined) {
+            cleanFormData[key] = " LIKE '%'";
         } else if (value == "any") {
-            cleanFormData[key] = "1=1";
+            cleanFormData[key] = " LIKE '%'";
         } else {
-            cleanFormData[key] = value;
+            cleanFormData[key] = "= " + value;
         }
     }
 
     // Insert cleaned dictionary into master query (could probably be dynamically generated)
-    // TO DO: need to add custom functionality such as "AT LEAST" functionality and range between min and max price++
-    // TO DO: database table names need to be correct
-    var query = 
-    'SELECT * FROM scrapedCars INNER JOIN carData ON scrapedCars.numberplate = carData.numberplate' + 
-    ' WHERE carData.tax="' + cleanFormData.tax.value +  '" ' +
-    ' AND WHERE carData.brand="' + cleanFormData.brand.value + '" ' +
-    ' AND WHERE carData.fuel="' + cleanFormData.fuel.value + '" ' +
-    ' AND WHERE carData.KML="' + cleanFormData.KML.value + '" ' +
-    ' AND WHERE carData.price="' + cleanFormData.priceMIN.value + '" ' + /// add priceMIN + MAX MAGIC HERE
-    ' AND WHERE carData.totalKM="' + cleanFormData.totalKM.value + '" ' +
-    ' AND WHERE carData.nextService="' + cleanFormData.nextService.value + '" ' +
-    ' AND WHERE carData.area="' + cleanFormData.area.value + '";';
-   
+    var query =
+        'SELECT * FROM scrapedCars INNER JOIN carData ON scrapedCars.numberplate = carData.numberplate ' +
+        'WHERE carData.weighttax' + cleanFormData.weighttax +
+        ' AND carData.fuel' + cleanFormData.fuel +
+        ' AND carData.kml' + cleanFormData.kml +
+        ' AND carData.kilometer' + cleanFormData.kilometer +
+        // ' AND carData.area' + cleanFormData.area + <-- er ikke i db af en eller anden årsag
+        // ' AND carData.priceMIN' + cleanFormData.priceMIN + <-- lav BETWEEN magi, når price er int igen
+        // ' AND carData.priceMAX + cleanFormData.priceMAX + <-- lav BETWEEN magi, når price er int igen
+        // ' AND carData.nextService + cleanFormData.nextService + <-- not in db
+        ' AND carData.brand' + cleanFormData.brand + ';';
+
     // Execute query and render the results on the page
     handleSql(query, "return lots", function (result) {
         var string = JSON.stringify(result);

@@ -20,161 +20,173 @@
         <!-- Top header section-->
         <img src="../carpair-logo.png" width="150px" height="auto" class="logo">
         <p class="lead">CarPair seeks to establish trust and streamline the car sales process .</p>
-       <!--Form start-->
+        <!--Form start-->
         <form method="POST" action="/results/getFiltered">
             <!-- Container of filter elements-->
             <div class="filter-wrapper" style="padding:0.5rem;">
-                    <!-- One row of filtering options-->
-                    <div class="row mb-3">
-                        <div class="col-lg-3">
-                            <label for="brand">Brand</label>
-                        </div>
-                        <!--One column-->
-                        <div class="col-lg-3">
-                            <select class="form-control" id="brand" name="brand" aria-label="Default select example">
-                                <option value="any" selected>Any</option>
-                                <option value="Audi">Audi</option>
-                                <option value="Wolkswagen">Wolkswagen</option>
-                                <option value="Peugeot">Peugeot</option>
-                            </select>
-                        </div>
-                        <div class="col-lg-3">
-                            <label for="price">Price</label>
-                        </div>
-                        <div class="col-lg-3">
-                            <input class="form-control" id="priceMIN" name="priceMIN" type="text" placeholder="MIN."
-                                style="display:inline-block; width:45%;"> -
-                            <input class="form-control" id="priceMAX" name ="priceMAX" type="text" placeholder="MAX"
-                                style="display:inline-block; width:45%;">
-                        </div>
+                <!-- One row of filtering options-->
+                <div class="row mb-3">
+                    <div class="col-lg-3">
+                        <label for="brand">Brand</label>
                     </div>
-
-                    <div class="row mb-3">
-                        <div class="col-lg-3">
-                            <label for="fuel">Fuel</label>
-                        </div>
-                        <div class="col-lg-3">
-                            <select class="form-control" id="fuel" name="fuel" aria-label="Default select example">
-                                <option value="any" selected>Any</option>
-                                <option value="Benzin">Benzin</option>
-                                <option value="Diesel">Diesel</option>
-                                <option value="Electric">Electric</option>
-                            </select>
-                        </div>
-                        <div class="col-lg-3">
-                            <label for="totalKM">Total KM</label>
-                        </div>
-                        <div class="col-lg-3">
-                            <input class="form-control" id="totalKM" name="totalKM" type="text"
-                                placeholder="max kilometers driven eg 132000">
-                        </div>
+                    <!--One column-->
+                    <div class="col-lg-3">
+                        <!-- This can be dynamically generated from db-->
+                        <select class="form-control" id="brand" name="brand" aria-label="Default select example">
+                            <option value="any" selected>Any</option>
+                            <option value="Audi">Audi</option>
+                            <option value="BMW">BMW</option>
+                            <option value="Citröen">Citröen</option>
+                            <option value="Ford">Ford</option>
+                            <option value="Mercedes">Mercedes</option>
+                            <option value="Opel">Opel</option>
+                            <option value="Toyota">Toyota</option>
+                            <option value="Volvo">Volvo</option>
+                            <option value="Wolkswagen">Wolkswagen</option>
+                            <option value="Peugeot">Peugeot</option>
+                        </select>
                     </div>
-
-                    <div class="row mb-3">
-                        <div class="col-lg-3">
-                            <label for="KML">KM/L</label>
-                        </div>
-                        <div class="col-lg-3">
-                            <input class="form-control" id="KML" name="KML" type="text" placeholder="Default input">
-                        </div>
-                        <div class="col-lg-3">
-                            <label for="nextService">Next Service</label>
-                        </div>
-                        <div class="col-lg-3">
-                            <input class="form-control" id="nextService" name="nextService" type="text"
-                                placeholder="Max months to service eg. 12">
-                        </div>
+                    <div class="col-lg-3">
+                        <label for="price">Price</label>
                     </div>
-
-                    <div class="row mb-3">
-                        <div class="col-lg-3">
-                            <label for="tax">Tax</label>
-                        </div>
-                        <div class="col-lg-3">
-                            <input class="form-control" id="tax" name="tax" type="text" placeholder="Default input">
-                        </div>
-                        <div class="col-lg-3">
-                            <label for="area">Area</label>
-                        </div>
-                        <div class="col-lg-3">
-                            <select class="form-control" id="area" name="area" aria-label="Default select example">
-                                <option value="any" selected>Any</option>
-                                <option value="Nordjylland">Nordjylland</option>
-                                <option value="Midtjylland">Midtjylland</option>
-                                <option value="Vestjylland">Vestjylland</option>
-                                <option value="Sønderjylland">Sønderjylland</option>
-                                <option value="Fyn">Fyn</option>
-                                <option value="Sjælland">Sjælland</option>
-                            </select>
-                        </div>
+                    <div class="col-lg-3">
+                        <input class="form-control" id="priceMIN" name="priceMIN" type="text" placeholder="MIN."
+                            style="display:inline-block; width:45%;"> -
+                        <input class="form-control" id="priceMAX" name="priceMAX" type="text" placeholder="MAX"
+                            style="display:inline-block; width:45%;">
                     </div>
+                </div>
 
-                    <button type="submit" class="btn btn-primary float-right btn-md">Search</button>
+                <div class="row mb-3">
+                    <div class="col-lg-3">
+                        <label for="fuel">Fuel</label>
+                    </div>
+                    <div class="col-lg-3">
+                        <select class="form-control" id="fuel" name="fuel" aria-label="Default select example">
+                            <option value="any" selected>Any</option>
+                            <option value="Benzin">Benzin</option>
+                            <option value="Diesel">Diesel</option>
+                            <option value="El">El</option>
+                            <option value="Hybrid">Hybrid</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-3">
+                        <label for="kilometer">Total KM</label>
+                    </div>
+                    <div class="col-lg-3">
+                        <input class="form-control" id="kilometer" name="kilometer" type="text"
+                            placeholder="max kilometers driven eg 132000">
+                    </div>
+                </div>
 
-                </form>
+                <div class="row mb-3">
+                    <div class="col-lg-3">
+                        <label for="kml">KM/L</label>
+                    </div>
+                    <div class="col-lg-3">
+                        <input class="form-control" id="kml" name="kml" type="text" placeholder="Default input">
+                    </div>
+                    <div class="col-lg-3">
+                        <label for="nextService">Next Service</label>
+                    </div>
+                    <div class="col-lg-3">
+                        <input class="form-control" id="nextService" name="nextService" type="text"
+                            placeholder="Max months to service eg. 12">
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-lg-3">
+                        <label for="weighttax">Weigh tax</label>
+                    </div>
+                    <div class="col-lg-3">
+                        <input class="form-control" id="weighttax" name="weighttax" type="text"
+                            placeholder="Default input">
+                    </div>
+                    <div class="col-lg-3">
+                        <label for="area">Area</label>
+                    </div>
+                    <div class="col-lg-3">
+                        <select class="form-control" id="area" name="area" aria-label="Default select example">
+                            <option value="any" selected>Any</option>
+                            <option value="Nordjylland">Nordjylland</option>
+                            <option value="Østjylland">Østjylland</option>
+                            <option value="midtjylland">midtjylland</option>
+                            <option value="Vestjylland">Vestjylland</option>
+                            <option value="Sønderjylland">Sønderjylland</option>
+                            <option value="Fyn">Fyn</option>
+                            <option value="Sjælland">Sjælland</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary float-right btn-md">Search</button>
+
+        </form>
+    </div>
+
+    <!-- Car recommendations header-->
+    <div class="recommendation-container"></div>
+    <h3 id="recommended-header">
+        <h3>Recommended cars</h3>
+
+        <div class="row mb-3 ">
+
+            <div class="col-lg-4">
+                <div class="card" style="width: 20rem;">
+                    <img class="card-img-top"
+                        src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22286%22%20height%3D%22180%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20286%20180%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_178f4690f45%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A14pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_178f4690f45%22%3E%3Crect%20width%3D%22286%22%20height%3D%22180%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22107.1875%22%20y%3D%2296.1359375%22%3E286x180%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E"
+                        alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the
+                            bulk of
+                            the
+                            card's content.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
             </div>
 
-            <!-- Car recommendations header-->
-            <div class="recommendation-container"></div>
-            <h3 id="recommended-header">
-                <h3>Recommended cars</h3>
-
-                <div class="row mb-3 ">
-
-                    <div class="col-lg-4">
-                        <div class="card" style="width: 20rem;">
-                            <img class="card-img-top"
-                                src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22286%22%20height%3D%22180%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20286%20180%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_178f4690f45%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A14pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_178f4690f45%22%3E%3Crect%20width%3D%22286%22%20height%3D%22180%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22107.1875%22%20y%3D%2296.1359375%22%3E286x180%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E"
-                                alt="Card image cap">
-                            <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the
-                                    bulk of
-                                    the
-                                    card's content.</p>
-                                <a href="#" class="btn btn-primary">Go somewhere</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4">
-                        <div class="card" style="width: 20rem;">
-                            <img class="card-img-top"
-                                src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22286%22%20height%3D%22180%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20286%20180%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_178f4690f45%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A14pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_178f4690f45%22%3E%3Crect%20width%3D%22286%22%20height%3D%22180%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22107.1875%22%20y%3D%2296.1359375%22%3E286x180%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E"
-                                alt="Card image cap">
-                            <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the
-                                    bulk of
-                                    the
-                                    card's content.</p>
-                                <a href="#" class="btn btn-primary">Go somewhere</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4">
-                        <div class="card" style="width: 20rem;">
-                            <img class="card-img-top"
-                                src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22286%22%20height%3D%22180%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20286%20180%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_178f4690f45%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A14pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_178f4690f45%22%3E%3Crect%20width%3D%22286%22%20height%3D%22180%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22107.1875%22%20y%3D%2296.1359375%22%3E286x180%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E"
-                                alt="Card image cap">
-                            <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the
-                                    bulk of
-                                    the
-                                    card's content.</p>
-                                <a href="#" class="btn btn-primary">Go somewhere</a>
-                            </div>
-                        </div>
+            <div class="col-lg-4">
+                <div class="card" style="width: 20rem;">
+                    <img class="card-img-top"
+                        src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22286%22%20height%3D%22180%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20286%20180%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_178f4690f45%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A14pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_178f4690f45%22%3E%3Crect%20width%3D%22286%22%20height%3D%22180%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22107.1875%22%20y%3D%2296.1359375%22%3E286x180%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E"
+                        alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the
+                            bulk of
+                            the
+                            card's content.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
                     </div>
                 </div>
+            </div>
 
-                <div class=" footer">
-                    <div class="row mb-3" style="background-color:#777777;">
-                        <div class="col-lg-3">This is a footer</div>
+            <div class="col-lg-4">
+                <div class="card" style="width: 20rem;">
+                    <img class="card-img-top"
+                        src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22286%22%20height%3D%22180%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20286%20180%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_178f4690f45%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A14pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_178f4690f45%22%3E%3Crect%20width%3D%22286%22%20height%3D%22180%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22107.1875%22%20y%3D%2296.1359375%22%3E286x180%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E"
+                        alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the
+                            bulk of
+                            the
+                            card's content.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
                     </div>
                 </div>
-    </div>
+            </div>
+        </div>
+
+        <div class=" footer">
+            <div class="row mb-3" style="background-color:#777777;">
+                <div class="col-lg-3">This is a footer</div>
+            </div>
+        </div>
+        </div>
 </body>
+
 </html>
