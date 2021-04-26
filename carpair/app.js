@@ -124,19 +124,19 @@ app.get('/results/getCarsCount', function (req, res) {
 
 
 // Display car listings dependendt on user input from form
-app.post('/results/getFiltered', function (req, res) {
+app.get('/results/getFiltered', function (req, res) {
     //Data from form input
     var carFormInput = {
-        weighttax: req.body.weighttax,
-        brand: req.body.brand,
-        fuel: req.body.fuel,
-        kml: req.body.kml,
-        kilometer: req.body.kilometer,
-        area: req.body.area
-        //  area: req.body.area <-- kan ikke finde column in db
+        weighttax: req.query.weighttax,
+        brand: req.query.brand,
+        fuel: req.query.fuel,
+        kml: req.query.kml,
+        kilometer: req.query.kilometer,
+        area: req.query.area,
+        priceMIN: req.query.priceMIN,
+        priceMAX: req.query.priceMAX,
+        area: req.query.area // <-- kan ikke finde column in db
         //  nextService: req.body.nextService, <-- not in db
-        //  priceMIN: req.body.priceMIN, <-- need price in integer
-        //  priceMAX: req.body.priceMAX,  <-- need price in integer
     };
 
     // new dictionary to clean up wrong inputs, such as empty strings an "any" selectable
@@ -145,28 +145,35 @@ app.post('/results/getFiltered', function (req, res) {
     // Clean up non-entries and "any"
     for (var key in carFormInput) {
         value = carFormInput[key];
-        if (value === "" || value === undefined) {
-            cleanFormData[key] = " LIKE '%'";
-        } else if (value == "any") {
-            cleanFormData[key] = " LIKE '%'";
-        } else {
+        if (value === "" || value === undefined || value == "any") {
+            if (key === "priceMIN") {
+                cleanFormData["priceMIN"] = 1;
+            } else if (key === "priceMAX") {
+                cleanFormData["priceMAX"] = 9000000000000000;
+            } else {
+                cleanFormData[key] = " LIKE '%'";
+            }
+        }
+        else {
             cleanFormData[key] = "= " + value;
         }
     }
 
+
     // Insert cleaned dictionary into master query (could probably be dynamically generated)
+
     var query =
         'SELECT * FROM scrapedCars INNER JOIN carData ON scrapedCars.numberplate = carData.numberplate ' +
         'WHERE carData.weighttax' + cleanFormData.weighttax +
         ' AND carData.fuel' + cleanFormData.fuel +
         ' AND carData.kml' + cleanFormData.kml +
         ' AND carData.kilometer' + cleanFormData.kilometer +
-        // ' AND carData.area' + cleanFormData.area + <-- er ikke i db af en eller anden årsag
-        // ' AND carData.priceMIN' + cleanFormData.priceMIN + <-- lav BETWEEN magi, når price er int igen
-        // ' AND carData.priceMAX + cleanFormData.priceMAX + <-- lav BETWEEN magi, når price er int igen
-        // ' AND carData.nextService + cleanFormData.nextService + <-- not in db
+      //  ' AND carData.price' + " BETWEEN " + cleanFormData.priceMIN + " AND " + cleanFormData.priceMAX + <-- needs to be integer in db.
         ' AND carData.brand' + cleanFormData.brand + ';';
+    // ' AND carData.area' + cleanFormData.area + <-- er ikke i db af en eller anden årsag
+    // ' AND carData.nextService + cleanFormData.nextService + <-- not in db
 
+    console.log(query)
     // Execute query and render the results on the page
     handleSql(query, "return lots", function (result) {
         var string = JSON.stringify(result);

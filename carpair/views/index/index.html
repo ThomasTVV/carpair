@@ -21,7 +21,7 @@
         <img src="../carpair-logo.png" width="150px" height="auto" class="logo">
         <p class="lead">CarPair seeks to establish trust and streamline the car sales process .</p>
         <!--Form start-->
-        <form method="POST" action="/results/getFiltered">
+        <form method="GET" action="/results/getFiltered">
             <!-- Container of filter elements-->
             <div class="filter-wrapper" style="padding:0.5rem;">
                 <!-- One row of filtering options-->
@@ -50,7 +50,7 @@
                         <label for="price">Price</label>
                     </div>
                     <div class="col-lg-3">
-                        <input class="form-control" id="priceMIN" name="priceMIN" type="text" placeholder="MIN."
+                        <input class="form-control" id="priceMIN" name="priceMIN" type="text" placeholder="MIN"
                             style="display:inline-block; width:45%;"> -
                         <input class="form-control" id="priceMAX" name="priceMAX" type="text" placeholder="MAX"
                             style="display:inline-block; width:45%;">
