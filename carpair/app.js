@@ -125,6 +125,12 @@ app.get('/results/getCarsCount', function (req, res) {
 
 // Display car listings dependendt on user input from form
 app.get('/results/getFiltered', function (req, res) {
+    var page = req.query.page;
+    var offsetStr = "";
+    if (!isNaN(page)) {
+        var offset = (page - 1) * carsPerPage; //3 fordi vi kun viser 3 biler i starten!!
+        offsetStr = ` OFFSET ${offset}`;
+    }
     //Data from form input
     var carFormInput = {
         weighttax: req.query.weighttax,
@@ -169,7 +175,7 @@ app.get('/results/getFiltered', function (req, res) {
         ' AND carData.kml' + cleanFormData.kml +
         ' AND carData.kilometer' + cleanFormData.kilometer +
       //  ' AND carData.price' + " BETWEEN " + cleanFormData.priceMIN + " AND " + cleanFormData.priceMAX + <-- needs to be integer in db.
-        ' AND carData.brand' + cleanFormData.brand + ';';
+        ' AND carData.brand' + cleanFormData.brand + ` LIMIT ${ carsPerPage }${ offsetStr };`;
     // ' AND carData.area' + cleanFormData.area + <-- er ikke i db af en eller anden årsag
     // ' AND carData.nextService + cleanFormData.nextService + <-- not in db
 

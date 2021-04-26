@@ -38,25 +38,14 @@ function changePage(newPage) {
 	window.location.href = url_string;
 }
 
-function loadCars() {
-	var page = getParam("page");
-
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            var result = JSON.parse(this.response);
+function loadCars(jsonStr) {
+	var result = JSON.parse(jsonStr);
 
 			for (var i = 0; i < result.length; i++) {
 				var row = createDomRow(result, i);
 				resultp.innerHTML += row;
 			}
-        }
-    };
-    xmlhttp.open("GET", `getCars?page=${page}`, true);
-    xmlhttp.send();
 }
-
-loadCars();
 
 function loadCarsCount() {
 	var xmlhttp = new XMLHttpRequest();
