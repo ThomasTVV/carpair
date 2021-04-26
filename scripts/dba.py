@@ -62,6 +62,8 @@ class ImportBot():
 
     def scanCarPage(self, linkUrl):
         price = self.driver.find_elements_by_class_name("price-tag")[0].text
+        price = price.replace(".", "")
+        price = price.replace(" kr.", "")
 
         try:
             imageUrl = self.driver.find_elements_by_class_name("primary-printable")[0].get_attribute(
@@ -179,5 +181,5 @@ class ImportBot():
 if __name__ == '__main__':
     temp = ImportBot()
     temp.openPage("https://www.dba.dk/biler/biler/reg-aalborg/?fra=privat&sort=listingdate-desc")
-    temp.dbDeleteInactive()
+    #temp.dbDeleteInactive()
 
