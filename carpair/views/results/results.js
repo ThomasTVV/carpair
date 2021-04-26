@@ -86,7 +86,7 @@ function createDomRow(json, i) {
 					${json[i]["title"]}
 				</div>
 				<div class="col-sm-4" style="color: #01631b">
-					${json[i]["price"]}
+					${priceFormat(json[i]["price"])}
 				</div>
 			</div>
 		<div class="row details">
@@ -135,6 +135,14 @@ function monthDiff(d1, d2) {
 	months -= d1.getMonth();
 	months += d2.getMonth();
 	return months <= 0 ? 0 : months;
+}
+
+function priceFormat(price) {
+	var position = -3;
+	var str = price.toString();
+	var output = [str.slice(0, position), ".", str.slice(position)].join('');
+	output += " kr.";
+	return output;
 }
 
 function checkUpTime(str) {
