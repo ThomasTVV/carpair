@@ -125,6 +125,8 @@ app.get('/results/getCarsCount', function (req, res) {
 
 // Display car listings dependendt on user input from form
 app.get('/results/getFiltered', function (req, res) {
+    
+    // Get page and pagination  info
     var page = req.query.page;
     var offsetStr = "";
     if (!isNaN(page)) {
@@ -141,8 +143,8 @@ app.get('/results/getFiltered', function (req, res) {
         area: req.query.area,
         priceMIN: req.query.priceMIN,
         priceMAX: req.query.priceMAX,
-        area: req.query.area // <-- kan ikke finde column in db
-        //  nextService: req.body.nextService, <-- not in db
+        area: req.query.area,
+        nextService: req.body.nextService
     };
 
     // new dictionary to clean up wrong inputs, such as empty strings an "any" selectable
@@ -165,19 +167,18 @@ app.get('/results/getFiltered', function (req, res) {
         }
     }
 
-
-    // Insert cleaned dictionary into master query (could probably be dynamically generated)
-
+    // Insert cleaned dictionary into master query (could be dynamically generated)
     var query =
         'SELECT * FROM scrapedCars INNER JOIN carData ON scrapedCars.numberplate = carData.numberplate ' +
         'WHERE carData.weighttax' + cleanFormData.weighttax +
         ' AND carData.fuel' + cleanFormData.fuel +
         ' AND carData.kml' + cleanFormData.kml +
         ' AND carData.kilometer' + cleanFormData.kilometer +
-      //  ' AND carData.price' + " BETWEEN " + cleanFormData.priceMIN + " AND " + cleanFormData.priceMAX + <-- needs to be integer in db.
+        ' AND scrapedCars.price' + " BETWEEN " + cleanFormData.priceMIN + " AND " + cleanFormData.priceMAX +
+        ' AND scrapedCars.area' + cleanFormData.area + 
+        ' AND carData.checkupdate' + cleanFormData.nextService +
         ' AND carData.brand' + cleanFormData.brand + ` LIMIT ${ carsPerPage }${ offsetStr };`;
-    // ' AND carData.area' + cleanFormData.area + <-- er ikke i db af en eller anden årsag
-    // ' AND carData.nextService + cleanFormData.nextService + <-- not in db
+     
 
     console.log(query)
     // Execute query and render the results on the page
