@@ -125,7 +125,6 @@ app.get('/results/getCarsCount', function (req, res) {
 
 // Display car listings dependendt on user input from form
 app.get('/results/getFiltered', function (req, res) {
-    
     // Get page and pagination  info
     var page = req.query.page;
     var offsetStr = "";
@@ -133,6 +132,7 @@ app.get('/results/getFiltered', function (req, res) {
         var offset = (page - 1) * carsPerPage; //3 fordi vi kun viser 3 biler i starten!!
         offsetStr = ` OFFSET ${offset}`;
     }
+
     //Data from form input
     var carFormInput = {
         weighttax: req.query.weighttax,
@@ -144,7 +144,7 @@ app.get('/results/getFiltered', function (req, res) {
         priceMIN: req.query.priceMIN,
         priceMAX: req.query.priceMAX,
         area: req.query.area,
-        nextService: req.body.nextService
+        nextService: req.query.nextService,
     };
 
     // new dictionary to clean up wrong inputs, such as empty strings an "any" selectable
@@ -153,35 +153,45 @@ app.get('/results/getFiltered', function (req, res) {
     // Clean up non-entries and "any"
     for (var key in carFormInput) {
         value = carFormInput[key];
+        // add LIKE % to non-entries and set specific values for priceMIN,MAX as they need a value not LIKE%
         if (value === "" || value === undefined || value == "any") {
             if (key === "priceMIN") {
                 cleanFormData["priceMIN"] = 1;
             } else if (key === "priceMAX") {
-                cleanFormData["priceMAX"] = 9000000000000000;
+                cleanFormData["priceMAX"] = 90000000;
             } else {
                 cleanFormData[key] = " LIKE '%'";
             }
         }
-        else {
-            cleanFormData[key] = "= " + value;
+        else { // Add operators in certain statements
+            if (key === "kilometer") { // Show numbers lower than entered
+                value = (value)/1000;
+                cleanFormData[key] = " < " + value;
+            } else if (key === "weighttax") { // Show numbers higher than entered
+                cleanFormData[key] = " < " + value;
+            } else if (key === "kml") { // Show numbers higher than entered
+                cleanFormData[key] = " > " + value;
+            } else if (key === "nextService") {
+                cleanFormData[key] = "" + value;  // special case w. date
+            } else {
+                cleanFormData[key] = "= " + value;  // we want the exact number (selectables)
+            }
         }
     }
 
-    // Insert cleaned dictionary into master query (could be dynamically generated)
+    // Insert SQL-esque dictionary into master query (could be dynamically generated)
     var query =
         'SELECT * FROM scrapedCars INNER JOIN carData ON scrapedCars.numberplate = carData.numberplate ' +
         'WHERE carData.weighttax' + cleanFormData.weighttax +
         ' AND carData.fuel' + cleanFormData.fuel +
         ' AND carData.kml' + cleanFormData.kml +
-        ' AND carData.kilometer' + cleanFormData.kilometer +
+        ' AND carData.kilometer' + cleanFormData.kilometer + // in db it's 3 digits in form it's infinite
         ' AND scrapedCars.price' + " BETWEEN " + cleanFormData.priceMIN + " AND " + cleanFormData.priceMAX +
-        ' AND scrapedCars.area' + cleanFormData.area + 
-        ' AND carData.checkupdate' + cleanFormData.nextService +
-        ' AND carData.brand' + cleanFormData.brand + ` LIMIT ${ carsPerPage }${ offsetStr };`;
-     
+        ' AND scrapedCars.area' + cleanFormData.area +
+       // " AND STR_TO_DATE(carData.checkupdate, '%d-/%m-/%Y') BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL + " + cleanFormData.nextService + " MONTH)" 
+        ' AND carData.brand' + cleanFormData.brand + ` LIMIT ${carsPerPage}${offsetStr};`;
 
-    console.log(query)
-    // Execute query and render the results on the page
+        // Execute query and render the results on the page
     handleSql(query, "return lots", function (result) {
         var string = JSON.stringify(result);
         res.render(path + 'results/results.html', { results: string });
