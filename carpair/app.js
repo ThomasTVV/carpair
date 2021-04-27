@@ -159,20 +159,20 @@ app.get('/results/getFiltered', function (req, res) {
                 cleanFormData["priceMIN"] = 1;
             } else if (key === "priceMAX") {
                 cleanFormData["priceMAX"] = 90000000;
+            } else if (key === "nextService") {
+                cleanFormData["nextService"] = 1000;
             } else {
                 cleanFormData[key] = " LIKE '%'";
             }
         }
         else { // Add operators in certain statements
             if (key === "kilometer") { // Show numbers lower than entered
-                value = (value)/1000;
+                value = (value) / 1000;
                 cleanFormData[key] = " < " + value;
             } else if (key === "weighttax") { // Show numbers higher than entered
                 cleanFormData[key] = " < " + value;
             } else if (key === "kml") { // Show numbers higher than entered
                 cleanFormData[key] = " > " + value;
-            } else if (key === "nextService") {
-                cleanFormData[key] = "" + value;  // special case w. date
             } else {
                 cleanFormData[key] = "= " + value;  // we want the exact number (selectables)
             }
@@ -188,10 +188,10 @@ app.get('/results/getFiltered', function (req, res) {
         ' AND carData.kilometer' + cleanFormData.kilometer + // in db it's 3 digits in form it's infinite
         ' AND scrapedCars.price' + " BETWEEN " + cleanFormData.priceMIN + " AND " + cleanFormData.priceMAX +
         ' AND scrapedCars.area' + cleanFormData.area +
-       // " AND STR_TO_DATE(carData.checkupdate, '%d-/%m-/%Y') BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL + " + cleanFormData.nextService + " MONTH)" 
+        " AND STR_TO_DATE(carData.checkupdate, '%d-%m-%Y') BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL +" + cleanFormData.nextService + " MONTH)" +
         ' AND carData.brand' + cleanFormData.brand + ` LIMIT ${carsPerPage}${offsetStr};`;
 
-        // Execute query and render the results on the page
+    // Execute query and render the results on the page
     handleSql(query, "return lots", function (result) {
         var string = JSON.stringify(result);
         res.render(path + 'results/results.html', { results: string });
