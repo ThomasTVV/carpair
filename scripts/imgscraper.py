@@ -1,9 +1,11 @@
 import mysql.connector
 import requests
+import os
 import re
 
 class ImgDownloader():
    
+   #Mysql credentials
     def __init__(self):
         self.mydb = mysql.connector.connect(
                 host="mysql112.unoeuro.com",
@@ -11,7 +13,7 @@ class ImgDownloader():
                 password="zrdEhaktw2g9",
                 database="sikkermail_konsulent_dk_db"
             )
-
+    #Query database for imglinks
     def GetURLFromDB(self):
         mycursor = self.mydb.cursor()
         sql = "SELECT id, imagelinks from scrapedCars"
@@ -19,6 +21,7 @@ class ImgDownloader():
         ImageURLs = mycursor.fetchall()
         self.DownloadImgFromUrl(ImageURLs)
 
+    #clean data + correctly name files for later handling
     def DownloadImgFromUrl(self, ImageURLs):
         status = None
         try:
@@ -33,7 +36,7 @@ class ImgDownloader():
                     print(element)
                     imgNum += 1
                     filename = str(carNum) + "-" + str(carID) + "-" + str(imgNum) + ".jpg"
-                    img = requests.get(element).content # <-- this should be printed, but 
+                    img = requests.get(element).content
                     with open(filename, 'wb') as handler:
                         handler.write(img)
         except ValueError:
