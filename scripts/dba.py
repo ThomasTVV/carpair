@@ -48,12 +48,17 @@ class ImportBot():
 
         for i in range(len(linksTmp)):
             links = self.driver.find_elements_by_css_selector(".expandable-box a.listingLink")
-            linkUrl = links[i].get_attribute("href")
+            try:
+                linkUrl = links[i].get_attribute("href")
+            except:
+                continue
+
             if linkUrl in self.oldCarUrls:
                 print("DEN ER TAAAGET")
                 self.dbSetActive(linkUrl)
                 continue
             self.driver.get(linkUrl)
+            sleep(15)
             self.scanCarPage(linkUrl)
             #sleep(5)
             self.driver.back()
@@ -75,6 +80,7 @@ class ImportBot():
         zipTmp = self.driver.find_elements_by_css_selector(".dba-MuiTypography-body1 span:last-child")[0].text
         zipTmp2 = zipTmp.split(", ")
         zip = int(zipTmp2[-1].split(" ")[0])
+        zipStr = zipTmp2[-1]
 
         area = ""
 
@@ -119,7 +125,7 @@ class ImportBot():
         for img in images:
             imageLinks.append(img.get_attribute("src"))
 
-        self.importData(price, linkUrl, zip, area, dateStr, imageLinks)
+        self.importData(price, linkUrl, zipStr, area, dateStr, imageLinks)
 
     def dbResetActive(self):
         mycursor = self.mydb.cursor()
@@ -181,5 +187,5 @@ class ImportBot():
 if __name__ == '__main__':
     temp = ImportBot()
     temp.openPage("https://www.dba.dk/biler/biler/reg-aalborg/?fra=privat&sort=listingdate-desc")
-    #temp.dbDeleteInactive()
+    temp.dbDeleteInactive()
 
