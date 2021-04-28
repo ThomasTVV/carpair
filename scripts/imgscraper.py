@@ -1,5 +1,6 @@
 import mysql.connector
 import requests
+import re
 
 class ImgDownloader():
    
@@ -21,14 +22,17 @@ class ImgDownloader():
     def DownloadImgFromUrl(self, ImageURLs):
         status = None
         try:
+            carNum = 0
             for imageData in ImageURLs:
                 imgNum = 0
+                carNum += 1
                 carID = imageData[0]
-                imagelinks = imageData[1].strip().split(', ')
+                imagelinks = imageData[1].strip().split(',')
+                imagelinks.pop() # last element returns empty, because it splits at ',' and last charchter is ','
                 for element in imagelinks:
                     print(element)
                     imgNum += 1
-                    filename = str(carID) + "-" + str(imgNum) + ".jpg"
+                    filename = str(carNum) + "-" + str(carID) + "-" + str(imgNum) + ".jpg"
                     img = requests.get(element).content # <-- this should be printed, but 
                     with open(filename, 'wb') as handler:
                         handler.write(img)
