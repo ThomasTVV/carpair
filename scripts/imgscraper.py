@@ -1,10 +1,9 @@
 import mysql.connector
 import requests
 import os
-import re
 
 class ImgDownloader():
-   
+
    #Mysql credentials
     def __init__(self):
         self.mydb = mysql.connector.connect(
@@ -13,6 +12,7 @@ class ImgDownloader():
                 password="zrdEhaktw2g9",
                 database="sikkermail_konsulent_dk_db"
             )
+            
     #Query database for imglinks
     def GetURLFromDB(self):
         mycursor = self.mydb.cursor()
@@ -24,6 +24,7 @@ class ImgDownloader():
     #clean data + correctly name files for later handling
     def DownloadImgFromUrl(self, ImageURLs):
         status = None
+        save_path = 'C:/Users/simon/Desktop/carpair/anpr/data/images' #save path needs to be changed on other pc's
         try:
             carNum = 0
             for imageData in ImageURLs:
@@ -36,8 +37,9 @@ class ImgDownloader():
                     print(element)
                     imgNum += 1
                     filename = str(carNum) + "-" + str(carID) + "-" + str(imgNum) + ".jpg"
+                    completeName = os.path.join(save_path, filename)     
                     img = requests.get(element).content
-                    with open(filename, 'wb') as handler:
+                    with open(completeName, 'wb') as handler:
                         handler.write(img)
         except ValueError:
             pass 
@@ -48,4 +50,4 @@ class ImgDownloader():
                 print("awesome")
 
 if __name__ == '__main__':
-    ImgDownloader().GetURLFromDB()
+    ImgDownloader().GetURLFromDB()  
