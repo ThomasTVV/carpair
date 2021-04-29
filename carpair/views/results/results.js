@@ -58,7 +58,7 @@ function loadCarsCount() {
 	xmlhttp.open("GET", `getCarsCount`, true);
 	xmlhttp.send();
 }
-loadCarsCount();
+
 
 function createPageButtons(carsCount) {
 	var div = document.getElementById("pages");
@@ -76,13 +76,13 @@ function createPageButtons(carsCount) {
 function createDomRow(json, i) {
 	var bgColor = (i % 2) ? "#ffffff" : "#ffffff";
 	var row = `<div class="h150container" style="background-color: ${bgColor}"><div class="row h150">
-		<div class="col-sm-3">
+		<div class="col-sm-3" style="height:100%;">
 			<div class="carImg" style="background-image: url('${json[i]["thumbnail"]}'); ">
 			</div>
 		</div>
 		<div class="col-sm-9 width72">
 			<div class="row title">
-				<div class="col-sm-8">
+				<div class="col-sm-8 singleline">
 					${json[i]["title"]}
 				</div>
 				<div class="col-sm-4" style="color: #01631b">

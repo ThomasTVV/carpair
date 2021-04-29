@@ -43,8 +43,15 @@ app.get('/results/', function (req, res) {
 
 // Index route
 app.get('/', function (req, res) {
-    //res.render(path + 'index/index.html', { hej: count[0].count.toString() }); //s�dan sendes variabler videre.
-    res.render(path + 'index/index.html');
+    // Insert SQL-esque dictionary into master query (could be dynamically generated)
+    var query =
+        `SELECT * FROM scrapedCars INNER JOIN carData ON scrapedCars.numberplate = carData.numberplate ORDER BY score LIMIT 3;`;
+
+    // Execute query and render the results on the page
+    handleSql(query, "return lots", function (result) {
+        var string = JSON.stringify(result);
+        res.render(path + 'index/index.html', { results: string });
+    });
 });
 
 // Handling sql 
