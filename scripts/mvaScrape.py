@@ -15,14 +15,14 @@ class ImportBot():
 
     def loadNew(self):
         mycursor = self.mydb.cursor()
-        sql = "SELECT numberplate from carData WHERE title is null;"
+        sql = "SELECT carData.numberplate, price from carData INNER JOIN scrapedCars ON carData.numberplate = scrapedCars.numberplate WHERE title is null;"
         mycursor.execute(sql)
         myresult = mycursor.fetchall()
 
-        for numberplate in myresult:
-            self.openPage("https://motorregister.skat.dk/dmr-kerne/dk/skat/dmr/front/portlets/koeretoejdetaljer/visKoeretoej/VisKoeretoejController.jpf", numberplate[0])
+        for result in myresult:
+            self.openPage("https://motorregister.skat.dk/dmr-kerne/dk/skat/dmr/front/portlets/koeretoejdetaljer/visKoeretoej/VisKoeretoejController.jpf", result[0], result[1])
 
-    def openPage(self, url, numberplate):
+    def openPage(self, url, numberplate, price):
         self.driver.get(url)
         self.driver.find_element_by_id("regnr").click()
         self.driver.find_element_by_id("soegeord").send_keys(numberplate)
@@ -30,10 +30,32 @@ class ImportBot():
         self.driver.find_element_by_id("fremsoegKtBtn").click()
 
         self.waitForPageLoad(currentUrl)
-        results = self.scanPage(numberplate)
+        results = self.scanPage(price)
         self.updateDB(numberplate, results)
 
-    def scanPage(self, numberplate):
+    def getIndex(self, results, price):
+        kml = float(results["kml"].replace(",", "."))
+        fuelCost = round(16000 / kml * 10)
+
+        km = int(results["kilometer"])
+        kmCost = 0
+
+        if km <= 60: # source: https://santanderconsumer.dk/magasinet/bil-og-mc/hvad-koster-det-at-vedligeholde-en-bil/
+            kmCost = 3500
+        elif km <= 120:
+            kmCost = 11000
+        else:
+            kmCost = 12000
+
+        taxCost = int(results["weighttax"]) * 2
+        yearlyCost = fuelCost + taxCost + kmCost
+
+        age = 2021 - int(results["manufactured"])
+
+        score = self.calculateScore(price, age, yearlyCost)
+        return score
+
+    def scanPage(self, price):
         results = {}
         results["title"] = self.getValue("Mærke, Model, Variant:")
         tmp = results["title"].split(", ")
@@ -52,12 +74,16 @@ class ImportBot():
 
         self.changePage('// *[ @ id = "li-visKTTabset-2"] / div / a')
 
-        results["checkupdate"] = self.getValue2("Beregnet dato for næste indkaldelse til periodisk syn:")
+        try:
+            results["checkupdate"] = self.getValue2("Beregnet dato for næste indkaldelse til periodisk syn:")
+        except:
+            print("Den er ikke indkaldt til syn.")
 
         self.changePage('// *[ @ id = "li-visKTTabset-4"] / div / a')
 
         tmp = self.driver.find_elements_by_css_selector(".stripes-even td:nth-child(7) a span")[0].text
         results["weighttax"] = self.formatWeightTax(tmp)
+        results["score"] = self.getIndex(results, price)
         print(results)
         return results
 
@@ -106,6 +132,18 @@ class ImportBot():
         print(sql)
         mycursor.execute(sql)
         self.mydb.commit()
+
+    def calculateScore(self, price, age, yearlyCost):
+        averageCost = 24000
+        yearlyCostIndex = yearlyCost/averageCost*100
+
+        formulaAge = 480.37*price**-0.357 #from excel, 480,37*price^-0,357
+        ageIndex = age/formulaAge*100
+
+        averageIndex = (yearlyCostIndex + ageIndex)/2
+        handicap = (price/100000)/5 #dividing by 100.000 to get a small handicap based on the price. And dividing by 5 in order to downscale the handicap. (So price isn't an extremely dominating factor)
+        averageIndex = averageIndex * (1 + handicap)
+        return round(averageIndex)
 
 
 
