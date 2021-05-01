@@ -42,6 +42,13 @@ def main(_argv):
     input_size = FLAGS.size
     images = FLAGS.images
 
+    CarPlateKeeper = {
+        "385": ["XX12345", "XX12341", "XX12346"],
+        "213": ["XX12145"],
+        "632": [""],
+    }
+
+
     # load model
     if FLAGS.framework == 'tflite':
             interpreter = tf.lite.Interpreter(model_path=FLAGS.weights)
@@ -59,6 +66,16 @@ def main(_argv):
         # get image name by using split method
         image_name = image_path.split('/')[-1]
         image_name = image_name.split('.')[0]
+
+        #CarId for refference in DB
+        carID = image_name.split('-')[1]
+
+        #Add key to dictionary if not added
+        if carID not in CarPlateKeeper:
+            print(carID + "added to db for the first time")
+            CarPlateKeeper[carID] = ["registered"]
+
+       
 
         images_data = []
         for i in range(1):
