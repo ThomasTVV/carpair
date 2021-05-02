@@ -126,7 +126,6 @@ def main(_argv):
         except:
             print("Something went wrong w." + image_name)
 
-
     #Logic for validating carplates
     validatedCarPlates = {}
 
@@ -142,6 +141,9 @@ def main(_argv):
                 #Only add the first elemnent that matches the criteria (first pics in listing often has better view)
                 if carID not in validatedCarPlates: 
                     validatedCarPlates[carID] = result
+
+    #Print sucesfully identified numberplates <-- needs to be inserted into sql                
+    print(validatedCarPlates)
 
 if __name__ == '__main__':
     try:
