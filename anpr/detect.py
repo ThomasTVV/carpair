@@ -1,6 +1,7 @@
 import os
 from os import listdir
 from os.path import isfile, join
+import re
 # comment out below line to enable tensorflow outputs
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import tensorflow as tf
@@ -50,7 +51,7 @@ def main(_argv):
     images = FLAGS.images
 
     #dict for carID and numberplates 
-    CarPlateKeeper = {}
+    plateReadings = {}
 
     #Load model
     saved_model_loaded = tf.saved_model.load(FLAGS.weights, tags=[tag_constants.SERVING])
@@ -71,8 +72,8 @@ def main(_argv):
         carID = image_name.split('-')[0]
 
         #Add key to dictionary if not added
-        if carID not in CarPlateKeeper:
-            CarPlateKeeper[carID] = []
+        if carID not in plateReadings:
+            plateReadings[carID] = []
 
         images_data = []
         for i in range(1):
@@ -118,12 +119,29 @@ def main(_argv):
 
             # Only append if string isn't empty
             if numberplate:
-                CarPlateKeeper[carID].append(numberplate)
+                plateReadings[carID].append(numberplate)
 
-            print(CarPlateKeeper)
+            print(plateReadings)
 
         except:
             print("Something went wrong w." + image_name)
+
+
+    #Logic for validating carplates
+    validatedCarPlates = {}
+
+    #Two leading letters in capital + 5 numbers
+    regexVal = re.compile("[A-Z]{2}[0-9]{5}")
+
+    for carID, plateList in plateReadings.items():
+        for plate in plateList:
+            #Check min. length and if regex match is present
+            if len(plate) >= 7 and regexVal.search(plate): 
+                #Store only the regex match and ignore leading and following charchters
+                result = regexVal.search(plate).group(0)
+                #Only add the first elemnent that matches the criteria (first pics in listing often has better view)
+                if carID not in validatedCarPlates: 
+                    validatedCarPlates[carID] = result
 
 if __name__ == '__main__':
     try:
