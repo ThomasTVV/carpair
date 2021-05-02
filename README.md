@@ -16,6 +16,16 @@ CarPair seeks to establish trust and streamline the car sales process, by establ
 
 # Run back-end services
 
+
+## Populating your machine with images to run ANPR on
+
+go to carpair/scripts/imgscraper.py and change the path in the method DownloadImgFromUrl(), so that it points to the /data/images folder in the carpair directory.
+This will get images from the database, to run the ANPR on.
+
+```c 
+save_path = 'C:/Users/user/Desktop/carpair/anpr/data/images
+```
+
 ## YoloV4 setup.
 
 _Install ANPR dependencies by opening your commando prompt and navigating in to the anpr folder and enter the commands shown aswell as installing the necessary files and executables._
@@ -58,6 +68,7 @@ Windows: [https://github.com/UB-Mannheim/tesseract/wiki](https://github.com/UB-M
 
 Mac or Linux: [https://www.pyimagesearch.com/2017/07/03/installing-tesseract-for-ocr/](https://www.pyimagesearch.com/2017/07/03/installing-tesseract-for-ocr/)
 
+Then go to line 7 in carpair/anpr/core/utils.py and change the path to the destination of your tesseract installation
 
 ## Running the license place recognition
 
