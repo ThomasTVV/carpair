@@ -26,17 +26,14 @@ class ImgDownloader():
         status = None
         save_path = 'C:/Users/simon/Desktop/carpair/anpr/data/images' #save path needs to be changed on other pc's
         try:
-            carNum = 0
             for imageData in ImageURLs:
                 imgNum = 0
-                carNum += 1
                 carID = imageData[0]
                 imagelinks = imageData[1].strip().split(',')
                 imagelinks.pop() # last element returns empty, because it splits at ',' and last charchter is ','
                 for element in imagelinks:
-                    print(element)
                     imgNum += 1
-                    filename = str(carNum) + "-" + str(carID) + "-" + str(imgNum) + ".jpg"
+                    filename = str(carID) + "-" + str(imgNum) + ".jpg"
                     completeName = os.path.join(save_path, filename)     
                     img = requests.get(element).content
                     with open(completeName, 'wb') as handler:

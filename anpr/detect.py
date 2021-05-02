@@ -1,4 +1,6 @@
 import os
+from os import listdir
+from os.path import isfile, join
 # comment out below line to enable tensorflow outputs
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import tensorflow as tf
@@ -17,13 +19,18 @@ import numpy as np
 from tensorflow.compat.v1 import ConfigProto
 from tensorflow.compat.v1 import InteractiveSession
 
+#Path for images + names of images to run on.
+mypath = "./data/images"
+onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
+stringoffiles = ', '.join(str( mypath + "/" + x) for x in onlyfiles)
+
 flags.DEFINE_string('framework', 'tf', '(tf, tflite, trt')
 flags.DEFINE_string('weights', './checkpoints/yolov4-416',
                     'path to weights file')
 flags.DEFINE_integer('size', 416, 'resize images to')
 flags.DEFINE_boolean('tiny', False, 'yolo or yolo-tiny')
 flags.DEFINE_string('model', 'yolov4', 'yolov3 or yolov4')
-flags.DEFINE_list('images', './data/images/kite.jpg', 'path to input image')
+flags.DEFINE_list('images', stringoffiles, 'path to input image')
 flags.DEFINE_string('output', './detections/', 'path to output folder')
 flags.DEFINE_float('iou', 0.45, 'iou threshold')
 flags.DEFINE_float('score', 0.50, 'score threshold')
@@ -42,18 +49,11 @@ def main(_argv):
     input_size = FLAGS.size
     images = FLAGS.images
 
-    CarPlateKeeper = {
-        "385": ["XX12345", "XX12341", "XX12346"],
-        "213": ["XX12145"],
-        "632": [""],
-    }
+    #dict for carID and numberplates 
+    CarPlateKeeper = {}
 
-
-    # load model
-    if FLAGS.framework == 'tflite':
-            interpreter = tf.lite.Interpreter(model_path=FLAGS.weights)
-    else:
-            saved_model_loaded = tf.saved_model.load(FLAGS.weights, tags=[tag_constants.SERVING])
+    #Load model
+    saved_model_loaded = tf.saved_model.load(FLAGS.weights, tags=[tag_constants.SERVING])
 
     # loop through images in list and run Yolov4 model on each
     for count, image_path in enumerate(images, 1):
@@ -67,39 +67,24 @@ def main(_argv):
         image_name = image_path.split('/')[-1]
         image_name = image_name.split('.')[0]
 
-        #CarId for refference in DB
-        carID = image_name.split('-')[1]
+        #CarId for later refference in DB
+        carID = image_name.split('-')[0]
 
         #Add key to dictionary if not added
         if carID not in CarPlateKeeper:
-            print(carID + "added to db for the first time")
-            CarPlateKeeper[carID] = ["registered"]
-
-       
+            CarPlateKeeper[carID] = []
 
         images_data = []
         for i in range(1):
             images_data.append(image_data)
         images_data = np.asarray(images_data).astype(np.float32)
 
-        if FLAGS.framework == 'tflite':
-            interpreter.allocate_tensors()
-            input_details = interpreter.get_input_details()
-            output_details = interpreter.get_output_details()
-            interpreter.set_tensor(input_details[0]['index'], images_data)
-            interpreter.invoke()
-            pred = [interpreter.get_tensor(output_details[i]['index']) for i in range(len(output_details))]
-            if FLAGS.model == 'yolov3' and FLAGS.tiny == True:
-                boxes, pred_conf = filter_boxes(pred[1], pred[0], score_threshold=0.25, input_shape=tf.constant([input_size, input_size]))
-            else:
-                boxes, pred_conf = filter_boxes(pred[0], pred[1], score_threshold=0.25, input_shape=tf.constant([input_size, input_size]))
-        else:
-            infer = saved_model_loaded.signatures['serving_default']
-            batch_data = tf.constant(images_data)
-            pred_bbox = infer(batch_data)
-            for key, value in pred_bbox.items():
-                boxes = value[:, :, 0:4]
-                pred_conf = value[:, :, 4:]
+        infer = saved_model_loaded.signatures['serving_default']
+        batch_data = tf.constant(images_data)
+        pred_bbox = infer(batch_data)
+        for key, value in pred_bbox.items():
+            boxes = value[:, :, 0:4]
+            pred_conf = value[:, :, 4:]
 
         # run non max suppression on detections
         boxes, scores, classes, valid_detections = tf.image.combined_non_max_suppression(
@@ -124,39 +109,21 @@ def main(_argv):
 
         # by default allow all classes in .names file
         allowed_classes = list(class_names.values())
-        
-        # custom allowed classes (uncomment line below to allow detections for only people)
-        #allowed_classes = ['person']
 
-        # if crop flag is enabled, crop each detection and save it as new image
-        if FLAGS.crop:
-            crop_path = os.path.join(os.getcwd(), 'detections', 'crop', image_name)
-            try:
-                os.mkdir(crop_path)
-            except FileExistsError:
-                pass
-            crop_objects(cv2.cvtColor(original_image, cv2.COLOR_BGR2RGB), pred_bbox, crop_path, allowed_classes)
+        #Preprocessing and OCR in utils.py
+        try:
+            result = utils.draw_bbox(original_image, pred_bbox, FLAGS.info, allowed_classes=allowed_classes, read_plate = FLAGS.plate)
+            image = result[0] #still here if we want to show each detection as pop.up (look at old code to suceessfully integrate)
+            numberplate = result[1]
 
-        # if ocr flag is enabled, perform general text extraction using Tesseract OCR on object detection bounding box
-        if FLAGS.ocr:
-            ocr(cv2.cvtColor(original_image, cv2.COLOR_BGR2RGB), pred_bbox)
+            # Only append if string isn't empty
+            if numberplate:
+                CarPlateKeeper[carID].append(numberplate)
 
-        # if count flag is enabled, perform counting of objects
-        if FLAGS.count:
-            # count objects found
-            counted_classes = count_objects(pred_bbox, by_class = False, allowed_classes=allowed_classes)
-            # loop through dict and print
-            for key, value in counted_classes.items():
-                print("Number of {}s: {}".format(key, value))
-            image = utils.draw_bbox(original_image, pred_bbox, FLAGS.info, counted_classes, allowed_classes=allowed_classes, read_plate = FLAGS.plate)
-        else:
-            image = utils.draw_bbox(original_image, pred_bbox, FLAGS.info, allowed_classes=allowed_classes, read_plate = FLAGS.plate)
-        
-        image = Image.fromarray(image.astype(np.uint8))
-        if not FLAGS.dont_show:
-            image.show()
-        image = cv2.cvtColor(np.array(image), cv2.COLOR_BGR2RGB)
-        cv2.imwrite(FLAGS.output + 'detection' + str(count) + '.png', image)
+            print(CarPlateKeeper)
+
+        except:
+            print("Something went wrong w." + image_name)
 
 if __name__ == '__main__':
     try:

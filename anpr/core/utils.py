@@ -83,8 +83,8 @@ def recognize_plate(img, coords):
             text = None
     if plate_num != None:
         print("License Plate #: ", plate_num)
-    cv2.imshow("Character's Segmented", im2)
-    cv2.waitKey(0)
+    #cv2.imshow("Character's Segmented", im2)
+    #cv2.waitKey(0)
     return plate_num
 
 def load_freeze_layer(model='yolov4', tiny=False):
@@ -223,6 +223,8 @@ def draw_bbox(image, bboxes, info = False, counted_classes = None, show_label=Tr
     colors = list(map(lambda x: colorsys.hsv_to_rgb(*x), hsv_tuples))
     colors = list(map(lambda x: (int(x[0] * 255), int(x[1] * 255), int(x[2] * 255)), colors))
 
+    plate_number = None 
+
     random.seed(0)
     random.shuffle(colors)
     random.seed(None)
@@ -269,7 +271,8 @@ def draw_bbox(image, bboxes, info = False, counted_classes = None, show_label=Tr
                     cv2.putText(image, "{}s detected: {}".format(key, value), (5, offset),
                             cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, (0, 255, 0), 2)
                     offset += height_ratio
-    return image
+
+    return image, plate_number
 
 def bbox_iou(bboxes1, bboxes2):
     """
