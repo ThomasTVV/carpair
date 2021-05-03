@@ -135,7 +135,7 @@ def main(_argv):
     for carID, plateList in plateReadings.items():
         for plate in plateList:
             #Check min. length and if regex match is present
-            if len(plate) >= 7 and regexVal.search(plate): 
+            if regexVal.search(plate): 
                 #Store only the regex match and ignore leading and following charchters
                 result = regexVal.search(plate).group(0)
                 #Only add the first elemnent that matches the criteria (first pics in listing often has better view)
