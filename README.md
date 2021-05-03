@@ -49,7 +49,7 @@ Copy and paste your custom .weights file into the 'data' folder.
 
 ## Creating and running the model
 
-Convert the custom yolov4-weights into the corresponding TensorFlow model files and then run the model.
+Convert the custom yolov4-weights into the corresponding TensorFlow model.
 
 ```c
 python save_model.py --weights ./data/custom.weights --output ./checkpoints/custom-416 --input_size 416 --model yolov4 
@@ -72,10 +72,9 @@ Then go to line 7 in carpair/anpr/core/utils.py and change the path to the desti
 
 ## Running the license place recognition
 
+Run the following command in the anpr folder to run the ANPR which ultimately outputs the correctly identified numberplates to the database.
+
 ```c
 # Run License Plate Recognition on multiple images / entire test-dataset
 - python detect.py --weights ./checkpoints/custom-416 --size 416 --model yolov4 --dont_show --plate
 ```
-
-
-The output from the above command should print any license plate numbers found to your command terminal as well as output and save the following image to the database.
