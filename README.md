@@ -49,7 +49,7 @@ Copy and paste your custom .weights file into the 'data' folder.
 
 ## Creating and running the model
 
-Convert the custom yolov4-weights into the corresponding TensorFlow model files and then run the model.
+Convert the custom yolov4-weights into the corresponding TensorFlow model.
 
 ```c
 python save_model.py --weights ./data/custom.weights --output ./checkpoints/custom-416 --input_size 416 --model yolov4 
