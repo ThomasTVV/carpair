@@ -16,7 +16,7 @@ class ImgDownloader():
     #Query database for imglinks
     def GetURLFromDB(self):
         mycursor = self.mydb.cursor()
-        sql = "SELECT id, imagelinks from scrapedCars"
+        sql = "SELECT id, imagelinks from scrapedCars WHERE numberplate IS NULL"
         mycursor.execute(sql)
         ImageURLs = mycursor.fetchall()
         self.DownloadImgFromUrl(ImageURLs)
@@ -42,7 +42,7 @@ class ImgDownloader():
             pass 
         finally:
             if status != 200:
-                print("error")
+                print("exited query") #always exits here, even though it sucesfully ran
             else:
                 print("awesome")
 
