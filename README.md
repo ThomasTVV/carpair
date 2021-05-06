@@ -72,9 +72,8 @@ Then go to line 7 in carpair/anpr/core/utils.py and change the path to the desti
 
 ## Running the license place recognition
 
-Run the following command in the anpr folder to run the ANPR which ultimately outputs the correctly identified numberplates to the database.
+Run the following command in the anpr folder to run the ANPR which ultimately outputs the correctly identified numberplates to the database, proccessed on images placed in ./data/images.
 
 ```c
-# Run License Plate Recognition on multiple images / entire test-dataset
-- python detect.py --weights ./checkpoints/custom-416 --size 416 --model yolov4 --dont_show --plate
+python detect.py --weights ./checkpoints/custom-416 --size 416 --model yolov4 --dont_show --plate
 ```
