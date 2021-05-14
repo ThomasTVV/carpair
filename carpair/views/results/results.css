@@ -37,3 +37,21 @@
     height: 33px;
     overflow: hidden;
 }
+
+#pages button {
+    background-color: white;
+    border-radius: 40px;
+    padding: 5px 15px;
+    margin-bottom: 100px;
+}
+
+button.active {
+    background-color: #e14b4b !important;
+    border-color: #e14b4b !important;
+    color: white;
+    border: none !important;
+}
+
+.headerButton {
+    float: right;
+}

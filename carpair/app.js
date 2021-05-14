@@ -8,7 +8,7 @@ const port = 8080;
 
 var mysql = require('mysql');
 
-const carsPerPage = 3;
+const carsPerPage = 10;
 
 
 // Template engine

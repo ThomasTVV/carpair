@@ -26,12 +26,12 @@
             <!-- Container of filter elements-->
             <div class="filter-wrapper" style="padding:0.5rem;">
                 <!-- One row of filtering options-->
-                <div class="row mb-3">
-                    <div class="col-lg-3">
+                <div class="row">
+                    <div class="col-lg-2">
                         <label for="brand">Brand</label>
                     </div>
                     <!--One column-->
-                    <div class="col-lg-3">
+                    <div class="col-lg-4">
                         <!-- This can be dynamically generated from db-->
                         <select class="form-control" id="brand" name="brand" aria-label="Default select example">
                             <option value="any" selected>Any</option>
@@ -47,24 +47,24 @@
                             <option value="Peugeot">Peugeot</option>
                         </select>
                     </div>
-                    <div class="col-lg-3">
+                    <div class="col-lg-2">
                         <label for="price">Price</label>
                     </div>
-                    <div class="col-lg-3">
+                    <div class="col-lg-4">
                         <input class="form-control" id="priceMIN" name="priceMIN" type="text" placeholder="MIN"
                                style="display:inline-block; width:45%;"> -
                         <input class="form-control" id="priceMAX" name="priceMAX" type="text" placeholder="MAX"
-                               style="display:inline-block; width:45%;">
+                               style="display:inline-block; width:129px;">
                         <input class="form-control" id="page" name="page" type="text" value="1"
                                style="display:inline-block; width:45%; display: none;">
                     </div>
                 </div>
 
-                <div class="row mb-3">
-                    <div class="col-lg-3">
+                <div class="row">
+                    <div class="col-lg-2">
                         <label for="fuel">Fuel</label>
                     </div>
-                    <div class="col-lg-3">
+                    <div class="col-lg-4">
                         <select class="form-control" id="fuel" name="fuel" aria-label="Default select example">
                             <option value="any" selected>Any</option>
                             <option value="Benzin">Benzin</option>
@@ -73,43 +73,43 @@
                             <option value="Hybrid">Hybrid</option>
                         </select>
                     </div>
-                    <div class="col-lg-3">
+                    <div class="col-lg-2">
                         <label for="kilometer">Total KM</label>
                     </div>
-                    <div class="col-lg-3">
+                    <div class="col-lg-4">
                         <input class="form-control" id="kilometer" name="kilometer" type="text"
                             placeholder="max kilometers driven eg 132000">
                     </div>
                 </div>
 
-                <div class="row mb-3">
-                    <div class="col-lg-3">
+                <div class="row">
+                    <div class="col-lg-2">
                         <label for="kml">KM/L</label>
                     </div>
-                    <div class="col-lg-3">
+                    <div class="col-lg-4">
                         <input class="form-control" id="kml" name="kml" type="text" placeholder="Default input">
                     </div>
-                    <div class="col-lg-3">
+                    <div class="col-lg-2">
                         <label for="nextService">Next Service</label>
                     </div>
-                    <div class="col-lg-3">
+                    <div class="col-lg-4">
                         <input class="form-control" id="nextService" name="nextService" type="text"
                             placeholder="Max months to service eg. 12">
                     </div>
                 </div>
 
-                <div class="row mb-3">
-                    <div class="col-lg-3">
+                <div class="row">
+                    <div class="col-lg-2">
                         <label for="weighttax">Weigh tax</label>
                     </div>
-                    <div class="col-lg-3">
+                    <div class="col-lg-4">
                         <input class="form-control" id="weighttax" name="weighttax" type="text"
                             placeholder="Default input">
                     </div>
-                    <div class="col-lg-3">
+                    <div class="col-lg-2">
                         <label for="area">Area</label>
                     </div>
-                    <div class="col-lg-3">
+                    <div class="col-lg-4">
                         <select class="form-control" id="area" name="area" aria-label="Default select example">
                             <option value="any" selected>Any</option>
                             <option value="Nordjylland">Nordjylland</option>
@@ -123,8 +123,9 @@
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-primary float-right btn-md">Search</button>
-
+                <div style="width: 210px; margin: 0 auto; margin-top: 25px;">
+                    <button style="width: 100%" type="submit" class="btn btn-primary float-right btn-md">Search</button>
+                </div>
         </form>
     </div>
 

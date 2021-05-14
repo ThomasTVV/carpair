@@ -62,7 +62,7 @@ function loadCarsCount() {
 
 function createPageButtons(carsCount) {
 	var div = document.getElementById("pages");
-	var buttons = Math.ceil(carsCount / 3); //OBS!!! 3 fordi vi i testen vil vise 3 biler per side.
+	var buttons = Math.ceil(carsCount / 10); //OBS!!! 3 fordi vi i testen vil vise 3 biler per side.
 	var pagetmp = getParam("page");
 	var page = (pagetmp != null) ? pagetmp : 1;
 
@@ -71,6 +71,8 @@ function createPageButtons(carsCount) {
 		var button = `<button ${active}onclick='changePage(${i+1})' type='button'>Page ${i+1}</button> `;
 		div.innerHTML += button;
 	}
+
+	div.innerHTML += `<button class="headerButton active" onclick="location.href='../'" type="button">Go back</button>`;
 }
 
 function createDomRow(json, i) {

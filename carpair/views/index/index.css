@@ -12,13 +12,29 @@ body {
     font-style: italic;
 }
 
-.filter-wrapper{
+.filter-wrapper {
     background-color: white;
     border-radius: .25rem;
+    padding: 40px !important;
+    padding-bottom: 72px !important;
+    box-shadow: 0 0.3rem 0.55rem -0.25rem rgb(39 48 54 / 65%);
 }
 
 
 
 .footer{
     padding-top: 3rem;
+}
+
+.btn-primary {
+    background-color: #e14b4b !important;
+    border-color: #e14b4b !important;
+}
+
+.filter-wrapper .row {
+    margin-bottom: 5px;
+}
+
+.h150container {
+    border-left: 2px solid #e14b4b;
 }
