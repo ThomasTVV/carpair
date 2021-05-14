@@ -50,6 +50,7 @@ button.active {
     border-color: #e14b4b !important;
     color: white;
     border: none !important;
+    border: 2px solid #e14b4b !important;
 }
 
 .headerButton {

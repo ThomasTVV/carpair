@@ -76,7 +76,7 @@ function createPageButtons(carsCount) {
 }
 
 function createDomRow(json, i) {
-	var bgColor = (i % 2) ? "#ffffff" : "#ffffff";
+	var bgColor = (i % 2) ? "#ffffff" : "rgba(225, 75, 75,0.1)";
 	var row = `<div class="h150container" style="background-color: ${bgColor}"><div class="row h150">
 		<div class="col-sm-3" style="height:100%;">
 			<div class="carImg" style="background-image: url('${json[i]["thumbnail"]}'); ">
