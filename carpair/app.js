@@ -186,9 +186,13 @@ app.get('/results/getFiltered', function (req, res) {
         }
     }
 
-    // Insert SQL-esque dictionary into master query (could be dynamically generated)
+    var count = req.query.count;
+    var onlyCount = (count == "true") ? true : false;
+    var limitStr = (onlyCount) ? "" : `LIMIT ${carsPerPage}${offsetStr}`;
+    var select = (onlyCount) ? "count(price)" : "*";
+        // Insert SQL-esque dictionary into master query (could be dynamically generated)
     var query =
-        'SELECT * FROM scrapedCars INNER JOIN carData ON scrapedCars.numberplate = carData.numberplate ' +
+        'SELECT '+select+' FROM scrapedCars INNER JOIN carData ON scrapedCars.numberplate = carData.numberplate ' +
         'WHERE carData.weighttax' + cleanFormData.weighttax +
         ' AND carData.fuel' + cleanFormData.fuel +
         ' AND carData.kml' + cleanFormData.kml +
@@ -196,11 +200,18 @@ app.get('/results/getFiltered', function (req, res) {
         ' AND scrapedCars.price' + " BETWEEN " + cleanFormData.priceMIN + " AND " + cleanFormData.priceMAX +
         ' AND scrapedCars.area' + cleanFormData.area +
         " AND STR_TO_DATE(carData.checkupdate, '%d-%m-%Y') BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL +" + cleanFormData.nextService + " MONTH)" +
-        ' AND carData.brand' + cleanFormData.brand + ` LIMIT ${carsPerPage}${offsetStr};`;
+        ' AND carData.brand' + cleanFormData.brand + ` ${limitStr};`;
 
     // Execute query and render the results on the page
-    handleSql(query, "return lots", function (result) {
-        var string = JSON.stringify(result);
-        res.render(path + 'results/results.html', { results: string });
-    });
+    if (!onlyCount) {
+        handleSql(query, "return lots", function (result) {
+            var string = JSON.stringify(result);
+            res.render(path + 'results/results.html', { results: string });
+        });
+    }
+    else {
+        handleSql(query, "return lots", function (result) {
+            res.send(result);
+        });
+    }
 });

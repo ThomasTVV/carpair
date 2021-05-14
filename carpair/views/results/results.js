@@ -48,6 +48,8 @@ function loadCars(jsonStr) {
 }
 
 function loadCarsCount() {
+	var url_string = window.location.href;
+	var params = url_string.split("?")[1];
 	var xmlhttp = new XMLHttpRequest();
 	xmlhttp.onreadystatechange = function () {
 		if (this.readyState == 4 && this.status == 200) {
@@ -55,7 +57,7 @@ function loadCarsCount() {
 			createPageButtons(result);
 		}
 	};
-	xmlhttp.open("GET", `getCarsCount`, true);
+	xmlhttp.open("GET", `/results/getFiltered?${params}&count=true`, true);
 	xmlhttp.send();
 }
 
