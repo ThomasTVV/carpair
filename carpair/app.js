@@ -181,7 +181,7 @@ app.get('/results/getFiltered', function (req, res) {
             } else if (key === "kml") { // Show numbers higher than entered
                 cleanFormData[key] = " > " + value;
             } else {
-                cleanFormData[key] = "= " + value;  // we want the exact number (selectables)
+                cleanFormData[key] = "= '" + value + "'";  // we want the exact number (selectables)
             }
         }
     }
