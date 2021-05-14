@@ -27,6 +27,12 @@
     padding: 20px 0px;
     background-color: #ffffff;
     border-bottom: 1px solid black;
+    border-right: 3px solid #fcfcfc; 
+    transition-duration: 0.2s;
+}
+
+.h150container:hover {
+    border-right: 3px solid #e14b4b;
 }
 
 .active {
@@ -55,4 +61,23 @@ button.active {
 
 .headerButton {
     float: right;
+}
+
+.h1title {
+    color: #e14b4b;
+    Margin: 30px 0px;
+}
+
+.logo {
+    padding-top: 1.5rem;
+}
+
+.lead {
+    font-size: 16px;
+    padding-top: 0.5rem;
+    font-style: italic;
+}
+
+#container .h150container:first-child {
+    border-radius: 15px 15px 0px 0px;
 }
