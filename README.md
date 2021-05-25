@@ -13,11 +13,15 @@ CarPair seeks to establish trust and streamline the car sales process, by establ
 - Visit http://localhost:8080
 
 
+
+
 ## Scrape Car-listings from dba.dk
 go to carpair/scripts and open the command prompt and run
 ```c
 python dba.py
 ```
+
+
 
 
 ## Populating your machine with images to run ANPR on
@@ -33,13 +37,17 @@ python imgscraper.py
 ```
 
 
+
+
 ## Running the license place recognition on the gathered images
 
-Run the following command in the anpr folder to run the ANPR which ultimately outputs the correctly identified numberplates to the database
+Run the following command in the carpair/anpr folder to run the ANPR which ultimately outputs the correctly identified numberplates to the database
 
 ```c
 python anpr.py
 ```
+
+
 
 ## Scrape MVA to get data corresponding to the numberplate gathered from the ANPR
 
