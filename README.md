@@ -13,6 +13,12 @@ CarPair seeks to establish trust and streamline the car sales process, by establ
 - Visit http://localhost:8080
 
 
+## Populating your machine with images to run ANPR on
+
+go to carpair/scripts/imgscraper.py and change the path in the method DownloadImgFromUrl(), so that it points to the carpair/anpr/Plate_examples folder in the carpair directory. This will get images from the database, to run the ANPR on.
+
+`save_path = 'C:/Users/user/Desktop/carpair/anpr/data/images`
+
 
 ## Running the license place recognition
 
