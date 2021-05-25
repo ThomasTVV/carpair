@@ -13,17 +13,41 @@ CarPair seeks to establish trust and streamline the car sales process, by establ
 - Visit http://localhost:8080
 
 
+## Scrape Car-listings from dba.dk
+go to carpair/scripts and open the command prompt and run
+```c
+python dba.py
+```
+
+
 ## Populating your machine with images to run ANPR on
 
-go to carpair/scripts/imgscraper.py and change the path in the method DownloadImgFromUrl(), so that it points to the carpair/anpr/Plate_examples folder in the carpair directory. This will get images from the database, to run the ANPR on.
+go to carpair/scripts/imgscraper.py and change the path in the method DownloadImgFromUrl(), so that it points to the carpair/anpr/Plate_examples folder in the carpair directory.
 
 `save_path = 'C:/Users/user/Desktop/carpair/anpr/data/images`
 
+run the imgscraper.py script located in carpair/scripts to get all images to run anpr on
 
-## Running the license place recognition
+```c
+python imgscraper.py
+```
 
-Run the following command in the anpr folder to run the ANPR which ultimately outputs the correctly identified numberplates to the database, proccessed on images placed in carpair/anpr/
+
+## Running the license place recognition on the gathered images
+
+Run the following command in the anpr folder to run the ANPR which ultimately outputs the correctly identified numberplates to the database
 
 ```c
 python anpr.py
 ```
+
+## Scrape MVA to get data corresponding to the numberplate gathered from the ANPR
+
+Run the following script with the commandopromot in carpair/scripts
+
+```c
+python mvaScrape.py
+```
+
+Your application should now contain the cars, where a number plate has correctly been identified, with additional data, than its original listing had.
+
