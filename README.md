@@ -15,6 +15,9 @@ CarPair seeks to establish trust and streamline the car sales process, by establ
 
 
 
+# Administrating the back-end
+Please make sure that you have the correct libraries installed in order for the application to properly function.
+
 ## Scrape Car-listings from dba.dk
 go to carpair/scripts and open the command prompt and run
 ```c
