@@ -1,5 +1,5 @@
 # CarPair
-CarPair seeks to establish trust and streamline the car sales process, by establishing a decentralized platform that makes use of a webscraper that scours the web for car listings. The gathered data is then further complimented by using Automatic Numberplate Recognition(ANPR) software to extract number plates from car listings, which further enriches the gathered data, by using external API's. This results in a decentralized platform with car listings that have universally enriched data, whose parameters can then be further searched and filtered through.
+CarPair seeks to establish trust and streamline the car sales process, by establishing a centralized platform that makes use of a webscraper that scours the web for car listings. The gathered data is then further complimented by using Automatic Numberplate Recognition(ANPR) software to extract number plates from car listings, which further enriches the gathered data, by using external web scraping of external data sources. This results in a decentralized platform with car listings that have universally enriched data, whose parameters can then be further searched and filtered through.
 
 
 # Run the application
