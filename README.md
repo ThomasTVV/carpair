@@ -59,3 +59,6 @@ python mvaScrape.py
 
 Your application should now contain the cars, where a number plate has correctly been identified, with additional data, than its original listing had.
 
+_
+At the given time the ANPR does not insert number plates into the DB, for lack of interference when presenting the application_
+
